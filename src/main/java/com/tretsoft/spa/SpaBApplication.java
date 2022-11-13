@@ -8,7 +8,6 @@ public class SpaBApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpaBApplication.class, args);
-        // KUBIDUBI22
     }
 
 }
