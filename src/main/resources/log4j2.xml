@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_DIR">${sys:user.home}/apps/tomcat/logs/spab</Property>
+        <Property name="PATTERN_CONSOLE">%d{${LOG_DATEFORMAT_PATTERN:-HH:mm:ss.SSS}} %highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green, DEBUG=blue, TRACE=black} %style{%-50.50c{1}>}{cyan} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</Property>
+        <Property name="PATTERN_FILE">%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+
+    </Properties>
+
+    <Appenders>
+        <Console name="ToConsole" target="SYSTEM_OUT">
+                <PatternLayout pattern="${PATTERN_CONSOLE}"/>
+        </Console>
+
+        <RollingFile
+                name="RollingFile"
+                fileName="${LOG_DIR}/application.log"
+                filePattern="${LOG_DIR}/application.%i.log.gz"
+                ignoreExceptions="false">
+            <PatternLayout pattern="${PATTERN_FILE}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10" />
+        </RollingFile>
+
+    </Appenders>
+
+
+    <Loggers>
+<!--    LEVELS: OFF ALL FATAL ERROR WARN INFO DEBUG TRACE    -->
+        <Root level="DEBUG">
+            <AppenderRef ref="ToConsole" />
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+        <logger name="org.hibernate" level="WARN"/>
+        <logger name="org.springframework" level="WARN"/>
+        <logger name="_org.springframework.web.servlet" level="WARN"/>
+    </Loggers>
+</Configuration>
