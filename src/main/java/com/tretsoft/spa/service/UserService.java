@@ -12,6 +12,7 @@ import com.tretsoft.spa.service.utility.EmailSenderService;
 import com.tretsoft.spa.service.utility.RandomStringGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -26,6 +27,7 @@ public class UserService {
     private final EmailSenderService emailSenderService;
     private final RandomStringGenerator stringGenerator;
     private final AppProperties appProperties;
+    private final PasswordEncoder passwordEncoder;
 
     public SpaUserDto create(SpaUserDto dto) {
         userRepository
@@ -39,7 +41,7 @@ public class UserService {
         SpaUser user = SpaUser
                 .builder()
                 .login(dto.getLogin())
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .email(dto.getEmail())
                 .created(Calendar.getInstance())
                 .status(SpaUserStatus.CREATED)

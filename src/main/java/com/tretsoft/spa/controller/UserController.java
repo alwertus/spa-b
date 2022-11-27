@@ -50,6 +50,8 @@ public class UserController {
         userService.confirmEmail(key);
     }
 
+
+
     @ExceptionHandler()
     public ResponseEntity<Object> exceptionHandler(BaseException ex) {
         log.error(ex.getMessage());
@@ -58,7 +60,6 @@ public class UserController {
                 .badRequest()
                 .body(new ResponseError(ex));
     }
-
 
 
 
