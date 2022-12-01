@@ -1,10 +1,14 @@
 package com.tretsoft.spa.mapper;
 
+import com.tretsoft.spa.model.domain.SpaRole;
 import com.tretsoft.spa.model.domain.SpaUser;
 import com.tretsoft.spa.model.dto.SpaUserDto;
 import org.mapstruct.Mapper;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface SpaUserMapper extends BaseMapper<SpaUser, SpaUserDto> {
@@ -22,6 +26,10 @@ public interface SpaUserMapper extends BaseMapper<SpaUser, SpaUserDto> {
         return c;
     }
 
+    default List<SpaRole> map(List<String> roleNames) {
+        return Collections.emptyList();
+    }
+
     @Override
     default SpaUserDto sourceToDto(SpaUser spaUser) {
         return SpaUserDto
@@ -29,7 +37,8 @@ public interface SpaUserMapper extends BaseMapper<SpaUser, SpaUserDto> {
                 .login(spaUser.getLogin())
                 .email(spaUser.getEmail())
                 .created(spaUser.getCreated() == null ? null : spaUser.getCreated().getTimeInMillis())
-                .updated(spaUser.getUpdated() == null ? null : spaUser.getUpdated().getTimeInMillis())
+                .roles(spaUser.getRoles().stream().map(SpaRole::getName).collect(Collectors.toList()))
+//                .updated(spaUser.getUpdated() == null ? null : spaUser.getUpdated().getTimeInMillis())
                 .build();
     }
 }

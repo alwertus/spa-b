@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -17,7 +19,7 @@ public class SpaUserDto {
     @NotNull private String password;
     private String email;
     private Long created;
-    private Long updated;
     private String message;
+    private List<String> roles;
 
 }

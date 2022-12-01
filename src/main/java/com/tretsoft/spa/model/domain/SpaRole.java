@@ -25,4 +25,6 @@ public class SpaRole {
     @Column
     private Calendar created;
 
+    @Column
+    private Boolean isDefault;
 }

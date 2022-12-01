@@ -2,6 +2,7 @@ package com.tretsoft.spa.controller;
 
 import com.tretsoft.spa.exception.BaseException;
 import com.tretsoft.spa.model.dto.ResponseError;
+import com.tretsoft.spa.model.dto.UserLoginDto;
 import com.tretsoft.spa.service.UserService;
 import com.tretsoft.spa.model.dto.SpaUserDto;
 import com.tretsoft.spa.validator.SpaUserValidator;
@@ -50,6 +51,15 @@ public class UserController {
         userService.confirmEmail(key);
     }
 
+    @Operation(summary = "Try to login, generate token")
+    @PostMapping("/login")
+    public UserLoginDto signIn(
+            @Valid
+            @Parameter(description = "use Login and Password attributes to sing in")
+            @RequestBody SpaUserDto inDto
+    ) {
+        return userService.signInByLoginAndPassword(inDto.getLogin(), inDto.getPassword());
+    }
 
 
     @ExceptionHandler()
