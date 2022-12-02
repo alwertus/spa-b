@@ -3,6 +3,7 @@ package com.tretsoft.spa.controller;
 import com.tretsoft.spa.exception.BaseException;
 import com.tretsoft.spa.model.dto.ResponseError;
 import com.tretsoft.spa.model.dto.UserLoginDto;
+import com.tretsoft.spa.service.AuthenticationService;
 import com.tretsoft.spa.service.UserService;
 import com.tretsoft.spa.model.dto.SpaUserDto;
 import com.tretsoft.spa.validator.SpaUserValidator;
@@ -26,6 +27,7 @@ public class UserController {
 
     private final UserService userService;
     private final SpaUserValidator userValidator;
+    private final AuthenticationService authenticationService;
 
     @InitBinder
     public void initValidator(WebDataBinder dataBinder) {
@@ -58,7 +60,7 @@ public class UserController {
             @Parameter(description = "use Login and Password attributes to sing in")
             @RequestBody SpaUserDto inDto
     ) {
-        return userService.signInByLoginAndPassword(inDto.getLogin(), inDto.getPassword());
+        return authenticationService.signInByLoginAndPassword(inDto.getLogin(), inDto.getPassword());
     }
 
 

@@ -3,22 +3,17 @@ package com.tretsoft.spa.service;
 import com.tretsoft.spa.config.AppProperties;
 import com.tretsoft.spa.exception.AlreadyExistsException;
 import com.tretsoft.spa.exception.BadRequestException;
-import com.tretsoft.spa.exception.EmailNotConfirmedException;
-import com.tretsoft.spa.exception.WrongStatusException;
 import com.tretsoft.spa.mapper.SpaUserMapper;
 import com.tretsoft.spa.model.domain.SpaUser;
 import com.tretsoft.spa.model.domain.SpaUserStatus;
 import com.tretsoft.spa.model.dto.SpaUserDto;
-import com.tretsoft.spa.model.dto.UserLoginDto;
 import com.tretsoft.spa.repository.UserRepository;
 import com.tretsoft.spa.service.utility.EmailSenderService;
 import com.tretsoft.spa.service.utility.RandomStringGenerator;
-import com.tretsoft.spa.service.utility.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -33,7 +28,6 @@ public class UserService {
     private final RandomStringGenerator stringGenerator;
     private final AppProperties appProperties;
     private final PasswordEncoder passwordEncoder;
-    private final TokenService tokenService;
     private final RoleService roleService;
 
     public SpaUserDto create(SpaUserDto dto) {
@@ -76,6 +70,17 @@ public class UserService {
         return outDto;
     }
 
+    public SpaUser getUserByLogin(String login) {
+        return userRepository
+                .findByLogin(login)
+                .orElseThrow(() -> new BadRequestException("login='" + login + "'"));
+    }
+
+    public void updateUserLastLogin(SpaUser user) {
+        user.setLastLogin(Calendar.getInstance());
+        userRepository.save(user);
+    }
+
     public void confirmEmail(String key) {
         if (key.isBlank() || key.isEmpty())
             throw new BadRequestException("key");
@@ -91,30 +96,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    @Transactional
-    public UserLoginDto signInByLoginAndPassword(String login, String password) {
-        SpaUser user = userRepository
-                .findByLogin(login)
-                .orElseThrow(() -> new BadRequestException("login='" + login + "'"));
 
-        if (!passwordEncoder.matches(password, user.getPassword()))
-            throw new BadRequestException("password");
-
-        if (user.getEmailConfirmKey() != null)
-            throw new EmailNotConfirmedException(user.getLogin(), new String[] {user.getEmail()});
-
-        if (user.getStatus() != SpaUserStatus.ACTIVE)
-            throw new WrongStatusException(user.getStatus().toString());
-
-        user.setLastLogin(Calendar.getInstance());
-        userRepository.save(user);
-
-        //TODO: check request url
-        return new UserLoginDto(
-                spaUserMapper.sourceToDto(user),
-                tokenService.generateToken(user.getLogin(), /*request.getRequestURL().toString(),*/ user.getRoles(), false),
-                tokenService.generateToken(user.getLogin(), /*request.getRequestURL().toString(),*/ user.getRoles(), true)
-                );
-    }
 
 }
