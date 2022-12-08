@@ -1,7 +1,7 @@
-package com.tretsoft.spa.validator;
+package com.tretsoft.spa.web.validator;
 
 import com.tretsoft.spa.exception.NullAttributeException;
-import com.tretsoft.spa.model.dto.SpaUserDto;
+import com.tretsoft.spa.web.dto.SpaUserDto;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

@@ -1,4 +1,4 @@
-package com.tretsoft.spa.model.dto;
+package com.tretsoft.spa.web.dto;
 
 
 import com.tretsoft.spa.exception.BaseException;

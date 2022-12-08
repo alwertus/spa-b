@@ -1,4 +1,4 @@
-package com.tretsoft.spa.model.domain;
+package com.tretsoft.spa.model;
 
 import lombok.*;
 

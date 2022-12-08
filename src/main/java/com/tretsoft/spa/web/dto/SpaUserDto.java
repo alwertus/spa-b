@@ -1,4 +1,4 @@
-package com.tretsoft.spa.model.dto;
+package com.tretsoft.spa.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;

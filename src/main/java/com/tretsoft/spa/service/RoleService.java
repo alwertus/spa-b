@@ -1,7 +1,7 @@
 package com.tretsoft.spa.service;
 
-import com.tretsoft.spa.model.domain.SpaRole;
-import com.tretsoft.spa.model.domain.SpaUser;
+import com.tretsoft.spa.model.SpaRole;
+import com.tretsoft.spa.model.SpaUser;
 import com.tretsoft.spa.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

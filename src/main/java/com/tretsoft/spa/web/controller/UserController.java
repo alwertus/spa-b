@@ -1,12 +1,12 @@
 package com.tretsoft.spa.web.controller;
 
 import com.tretsoft.spa.exception.BaseException;
-import com.tretsoft.spa.model.dto.ResponseError;
-import com.tretsoft.spa.model.dto.UserLoginDto;
+import com.tretsoft.spa.web.dto.ResponseError;
+import com.tretsoft.spa.web.dto.UserLoginDto;
 import com.tretsoft.spa.service.AuthenticationService;
 import com.tretsoft.spa.service.UserService;
-import com.tretsoft.spa.model.dto.SpaUserDto;
-import com.tretsoft.spa.validator.SpaUserValidator;
+import com.tretsoft.spa.web.dto.SpaUserDto;
+import com.tretsoft.spa.web.validator.SpaUserValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
