@@ -1,4 +1,4 @@
-package com.tretsoft.spa.mapper;
+package com.tretsoft.spa.web.mapper;
 
 import java.util.List;
 

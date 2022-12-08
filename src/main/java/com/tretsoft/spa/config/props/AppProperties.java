@@ -1,4 +1,4 @@
-package com.tretsoft.spa.config;
+package com.tretsoft.spa.config.props;
 
 
 import lombok.Getter;

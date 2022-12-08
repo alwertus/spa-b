@@ -1,6 +1,6 @@
 package com.tretsoft.spa.service;
 
-import com.tretsoft.spa.config.AppProperties;
+import com.tretsoft.spa.config.props.AppProperties;
 import com.tretsoft.spa.exception.AlreadyExistsException;
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.mapper.SpaUserMapper;

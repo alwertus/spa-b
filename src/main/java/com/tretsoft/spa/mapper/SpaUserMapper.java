@@ -3,6 +3,7 @@ package com.tretsoft.spa.mapper;
 import com.tretsoft.spa.model.domain.SpaRole;
 import com.tretsoft.spa.model.domain.SpaUser;
 import com.tretsoft.spa.model.dto.SpaUserDto;
+import com.tretsoft.spa.web.mapper.BaseMapper;
 import org.mapstruct.Mapper;
 
 import java.util.Calendar;

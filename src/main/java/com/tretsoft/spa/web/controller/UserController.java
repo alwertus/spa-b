@@ -1,4 +1,4 @@
-package com.tretsoft.spa.controller;
+package com.tretsoft.spa.web.controller;
 
 import com.tretsoft.spa.exception.BaseException;
 import com.tretsoft.spa.model.dto.ResponseError;
@@ -71,24 +71,6 @@ public class UserController {
         return ResponseEntity
                 .badRequest()
                 .body(new ResponseError(ex));
-    }
-
-
-
-//    -----------------------------------
-
-    @Operation(summary = "koko GET")
-    @GetMapping
-    public String testMethod1() {
-        log.info("Input method GET");
-        return "TEST METHOD - GET";
-    }
-
-    @Operation(summary = "koko POST")
-    @PostMapping
-    public String testMethod2() {
-        log.info("Input method POST");
-        return "TEST METHOD - POST";
     }
 
 //    @Parameter(description = "Фильтрация по нназванию судна") @Nullable @RequestParam("name") String name,

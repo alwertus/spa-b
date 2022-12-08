@@ -1,4 +1,4 @@
-package com.tretsoft.spa.config;
+package com.tretsoft.spa.config.props;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.Getter;

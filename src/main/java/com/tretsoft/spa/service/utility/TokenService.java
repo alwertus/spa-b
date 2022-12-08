@@ -1,7 +1,7 @@
 package com.tretsoft.spa.service.utility;
 
 import com.auth0.jwt.JWT;
-import com.tretsoft.spa.config.JwtProperties;
+import com.tretsoft.spa.config.props.JwtProperties;
 import com.tretsoft.spa.model.domain.SpaRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

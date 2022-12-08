@@ -1,6 +1,6 @@
 package com.tretsoft.spa.service.utility;
 
-import com.tretsoft.spa.config.AppProperties;
+import com.tretsoft.spa.config.props.AppProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.mail.SimpleMailMessage;
