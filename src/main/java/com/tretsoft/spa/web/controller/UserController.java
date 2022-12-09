@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 @Log4j2
 @RestController
 @RequestMapping("/user")
@@ -61,6 +63,12 @@ public class UserController {
             @RequestBody SpaUserDto inDto
     ) {
         return authenticationService.signInByLoginAndPassword(inDto.getLogin(), inDto.getPassword());
+    }
+
+    @Operation(summary = "Get user list")
+    @GetMapping
+    public List<String> getUserList() {
+        return userService.getAllUsers();
     }
 
 

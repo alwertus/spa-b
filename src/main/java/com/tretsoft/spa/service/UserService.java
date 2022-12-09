@@ -3,13 +3,13 @@ package com.tretsoft.spa.service;
 import com.tretsoft.spa.config.props.AppProperties;
 import com.tretsoft.spa.exception.AlreadyExistsException;
 import com.tretsoft.spa.exception.BadRequestException;
-import com.tretsoft.spa.web.mapper.SpaUserMapper;
 import com.tretsoft.spa.model.SpaUser;
 import com.tretsoft.spa.model.SpaUserStatus;
-import com.tretsoft.spa.web.dto.SpaUserDto;
 import com.tretsoft.spa.repository.UserRepository;
 import com.tretsoft.spa.service.utility.EmailSenderService;
 import com.tretsoft.spa.service.utility.RandomStringGenerator;
+import com.tretsoft.spa.web.dto.SpaUserDto;
+import com.tretsoft.spa.web.mapper.SpaUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -96,6 +98,12 @@ public class UserService {
         userRepository.save(user);
     }
 
-
+    public List<String> getAllUsers() {
+        return userRepository
+                .findAll()
+                .stream()
+                .map(SpaUser::getLogin)
+                .collect(Collectors.toList());
+    }
 
 }
