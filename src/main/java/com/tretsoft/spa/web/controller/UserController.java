@@ -65,6 +65,13 @@ public class UserController {
         return authenticationService.signInByLoginAndPassword(inDto.getLogin(), inDto.getPassword());
     }
 
+    @Operation(summary = "Update tokens")
+    @PostMapping("/update-token")
+    public UserLoginDto updateToken() {
+        return authenticationService.updateTokens();
+
+    }
+
     @Operation(summary = "Get user list")
     @GetMapping
     public List<String> getUserList() {

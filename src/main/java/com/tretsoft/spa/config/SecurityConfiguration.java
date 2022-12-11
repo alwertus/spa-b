@@ -30,7 +30,6 @@ public class SecurityConfiguration {
 
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/user/login").permitAll()
-                        .requestMatchers("/user").authenticated()
                         .anyRequest().authenticated()
 
                 )

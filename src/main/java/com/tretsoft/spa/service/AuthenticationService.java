@@ -1,18 +1,31 @@
 package com.tretsoft.spa.service;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.tretsoft.spa.config.props.JwtProperties;
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.EmailNotConfirmedException;
 import com.tretsoft.spa.exception.WrongStatusException;
-import com.tretsoft.spa.web.mapper.SpaUserMapper;
 import com.tretsoft.spa.model.SpaUser;
 import com.tretsoft.spa.model.SpaUserStatus;
-import com.tretsoft.spa.web.dto.UserLoginDto;
 import com.tretsoft.spa.service.utility.TokenService;
+import com.tretsoft.spa.web.dto.UserLoginDto;
+import com.tretsoft.spa.web.mapper.SpaUserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -21,7 +34,15 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final SpaUserMapper spaUserMapper;
     private final TokenService tokenService;
+    private final JwtProperties jwtProperties;
 
+    private UserLoginDto generateTokens(SpaUser user) {
+        return new UserLoginDto(
+                spaUserMapper.sourceToDto(user),
+                tokenService.generateToken(user.getLogin(), user.getRoles(), false),
+                tokenService.generateToken(user.getLogin(), user.getRoles(), true)
+        );
+    }
 
     @Transactional
     public UserLoginDto signInByLoginAndPassword(String login, String password) {
@@ -38,22 +59,46 @@ public class AuthenticationService {
 
         userService.updateUserLastLogin(user);
 
-        //TODO: check request url
-        return new UserLoginDto(
-                spaUserMapper.sourceToDto(user),
-                tokenService.generateToken(user.getLogin(), /*request.getRequestURL().toString(),*/ user.getRoles(), false),
-                tokenService.generateToken(user.getLogin(), /*request.getRequestURL().toString(),*/ user.getRoles(), true)
+        return generateTokens(user);
+    }
+
+    public void authenticate(User user) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                user.getUsername(),
+                null,
+                user.getAuthorities()
         );
+
+        SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 
-//    TODO: DO IT
-    public SpaUser verifyToken(String token) {
-        return null;
+    public User convertTokenToUser(String token) {
+        // decode & verify expire date token
+        DecodedJWT decodedJWT = jwtProperties.getVerifier().verify(token);
+
+        // get username from token
+        String username = decodedJWT.getSubject();
+
+        // get roles from token
+        List<SimpleGrantedAuthority> roles = Arrays.stream(
+                decodedJWT
+                        .getClaim("roles")
+                        .asArray(SimpleGrantedAuthority.class))
+                .collect(Collectors.toList());
+
+        // check user exists
+        userService.getUserByLogin(username);
+
+        return new User(username, "", roles);
     }
 
-    public UserLoginDto updateTokens(String refreshToken) {
-//        if ()
-        return null;
+    public UserLoginDto updateTokens() {
+        return generateTokens(getCurrentUser());
+    }
+
+    public SpaUser getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userService.getUserByLogin(authentication.getName());
     }
 
 }
