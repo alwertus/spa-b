@@ -37,6 +37,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(
                                 "/user/login",
+                                "/user/emailConfirm",
                                 "/user"
                         ).permitAll()
                         .anyRequest().authenticated()
