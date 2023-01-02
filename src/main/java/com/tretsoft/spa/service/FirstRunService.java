@@ -20,6 +20,6 @@ public class FirstRunService {
         roleService.createRole("ADMIN", false);
         roleService.createRole("USER", true);
         roleService.createRole("PAGE_INFO", true);
-        roleService.createRole("PAGE_SIM", false);
+        roleService.createRole("PAGE_PHONE", false);
     }
 }
