@@ -1,22 +1,21 @@
 package com.tretsoft.spa.web.controller;
 
 import com.tretsoft.spa.exception.BaseException;
-import com.tretsoft.spa.web.dto.ResponseError;
-import com.tretsoft.spa.web.dto.UserLoginDto;
 import com.tretsoft.spa.service.AuthenticationService;
 import com.tretsoft.spa.service.UserService;
+import com.tretsoft.spa.web.dto.ResponseError;
 import com.tretsoft.spa.web.dto.SpaUserDto;
+import com.tretsoft.spa.web.dto.UserLoginDto;
 import com.tretsoft.spa.web.validator.SpaUserValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 
 import java.util.List;
 

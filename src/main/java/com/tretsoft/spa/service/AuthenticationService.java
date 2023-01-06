@@ -12,18 +12,12 @@ import com.tretsoft.spa.web.dto.UserLoginDto;
 import com.tretsoft.spa.web.mapper.SpaUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -62,34 +56,15 @@ public class AuthenticationService {
         return generateTokens(user);
     }
 
-    public void authenticate(User user) {
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                user.getUsername(),
-                null,
-                user.getAuthorities()
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-    }
-
-    public User convertTokenToUser(String token) {
+    public UserDetails findUserByToken(String token) {
         // decode & verify expire date token
-        DecodedJWT decodedJWT = jwtProperties.getVerifier().verify(token);
+        DecodedJWT decodedJWT = jwtProperties
+                .getVerifier()
+                .verify(token);
 
         // get username from token
         String username = decodedJWT.getSubject();
-
-        // get roles from token
-        List<SimpleGrantedAuthority> roles = Arrays.stream(
-                decodedJWT
-                        .getClaim("roles")
-                        .asArray(SimpleGrantedAuthority.class))
-                .collect(Collectors.toList());
-
-        // check user exists
-        userService.getUserByLogin(username);
-
-        return new User(username, "", roles);
+        return userService.getUserByLogin(username);
     }
 
     public UserLoginDto updateTokens() {

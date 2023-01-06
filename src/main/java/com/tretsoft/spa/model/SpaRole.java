@@ -16,7 +16,7 @@ import java.util.Calendar;
 public class SpaRole {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @Column(length = 100, unique = true, nullable = false)

@@ -16,8 +16,11 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -42,7 +45,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest rq, @NonNull HttpServletResponse rs, @NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest rq,
+                                    @NonNull HttpServletResponse rs,
+                                    @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
 
         // get Authorization header
         final String authHeader = rq.getHeader(HttpHeaders.AUTHORIZATION);
@@ -54,8 +60,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = authHeader.substring(jwtProperties.getTokenPrefix().length());
 
         try {
-            User user = authenticationService.convertTokenToUser(token);
-            authenticationService.authenticate(user);
+            UserDetails user = authenticationService.findUserByToken(token);
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    user.getUsername(),
+                    null,
+                    user.getAuthorities()
+            );
+            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(rq)); // add remote ip address
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+
         } catch (TokenExpiredException | JWTDecodeException ex) {
             writeErrorMessage(rs, ex);
         } catch (BadRequestException ex) {

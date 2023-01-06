@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(AppProperties.class)
 public class AppConfiguration {
 
-    final AppProperties appProperties;
+    public final AppProperties appProperties;
 
     public AppConfiguration(AppProperties properties) {
         this.appProperties = properties;
