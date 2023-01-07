@@ -31,10 +31,11 @@ public class PhoneSchedulerConfiguration {
         log.info("Begin get phone data");
         for (PhoneGsmService phone : phoneList) {
             phone.initialize();
-            ArrayList<PhoneSms> sms = phone.readSms();
-            for (PhoneSms s : sms) {
+            ArrayList<PhoneSms> smsos = phone.readSms();
+            for (PhoneSms s : smsos) {
                 log.info(s);
             }
+            log.info("Read {} records", smsos.size());
             phone.closePort();
         }
         log.info("End get phone data");
