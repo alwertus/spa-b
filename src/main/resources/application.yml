@@ -1,6 +1,6 @@
 server:
-#  servlet:
-#    context-path: /api
+  #  servlet:
+  #    context-path: /api
   port: 9000
 
 springdoc:
@@ -22,7 +22,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: singleplaceassistent@gmail.com
-    password: vmxefclupbhjzupk
+    password: singleplaceassistent123
     properties:
       mail:
         smtp:
@@ -31,8 +31,8 @@ spring:
             enable: true
 
 application:
-  frontUrl: http://CHANGE_ME:666
-  mockEmailSending: false
+  frontUrl: http://localhost:3000
+  mockEmailSending: true
   jwt:
     secretKey: securesecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecure
     tokenPrefix: Bearer.

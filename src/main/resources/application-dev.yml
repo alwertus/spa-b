@@ -1,5 +1,0 @@
-application:
-  frontUrl: http://localhost:3000
-  mockEmailSending: true
-  allowed:
-    origins: http://localhost:3000
