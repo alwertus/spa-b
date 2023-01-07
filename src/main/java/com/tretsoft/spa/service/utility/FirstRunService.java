@@ -1,5 +1,6 @@
-package com.tretsoft.spa.service;
+package com.tretsoft.spa.service.utility;
 
+import com.tretsoft.spa.service.auth.RoleService;
 import org.springframework.stereotype.Service;
 
 @Service

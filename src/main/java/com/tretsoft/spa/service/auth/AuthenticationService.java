@@ -1,4 +1,4 @@
-package com.tretsoft.spa.service;
+package com.tretsoft.spa.service.auth;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.tretsoft.spa.config.props.JwtProperties;
@@ -7,7 +7,6 @@ import com.tretsoft.spa.exception.EmailNotConfirmedException;
 import com.tretsoft.spa.exception.WrongStatusException;
 import com.tretsoft.spa.model.SpaUser;
 import com.tretsoft.spa.model.SpaUserStatus;
-import com.tretsoft.spa.service.utility.TokenService;
 import com.tretsoft.spa.web.dto.UserLoginDto;
 import com.tretsoft.spa.web.mapper.SpaUserMapper;
 import lombok.RequiredArgsConstructor;

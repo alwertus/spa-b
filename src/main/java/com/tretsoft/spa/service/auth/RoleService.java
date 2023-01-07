@@ -1,4 +1,4 @@
-package com.tretsoft.spa.service;
+package com.tretsoft.spa.service.auth;
 
 import com.tretsoft.spa.model.SpaRole;
 import com.tretsoft.spa.model.SpaUser;
@@ -16,7 +16,7 @@ import java.util.List;
 public class RoleService {
     private final RoleRepository roleRepository;
 
-    SpaUser addDefaultRoles(SpaUser user) {
+    public SpaUser addDefaultRoles(SpaUser user) {
         List<SpaRole> newRoles = roleRepository.findByIsDefaultIsTrue();
         if (user.getRoles() != null)
             newRoles.addAll(user.getRoles());
@@ -24,7 +24,7 @@ public class RoleService {
         return user;
     }
 
-    SpaRole createRole(String name, boolean isDefault) {
+    public SpaRole createRole(String name, boolean isDefault) {
         log.info("Create " + (isDefault ? "default " : "") + "role: " + name);
         SpaRole newRole = SpaRole.builder()
                 .created(Calendar.getInstance())
@@ -35,7 +35,7 @@ public class RoleService {
         return roleRepository.save(newRole);
     }
 
-    long getRecordsCount() {
+    public long getRecordsCount() {
         return roleRepository.count();
     }
 }

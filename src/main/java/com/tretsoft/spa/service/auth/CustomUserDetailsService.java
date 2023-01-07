@@ -1,4 +1,4 @@
-package com.tretsoft.spa.service;
+package com.tretsoft.spa.service.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

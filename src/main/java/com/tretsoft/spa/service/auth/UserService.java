@@ -1,4 +1,4 @@
-package com.tretsoft.spa.service;
+package com.tretsoft.spa.service.auth;
 
 import com.tretsoft.spa.config.props.AppProperties;
 import com.tretsoft.spa.exception.AlreadyExistsException;
@@ -58,7 +58,7 @@ public class UserService {
 
         // send email
         try {
-            emailSenderService.sendSimpleMessage(user.getEmail(), "Confirmation of creating a new account on SinglePlace Assistent. " + new Date(),
+            emailSenderService.sendSimpleMessage(user.getEmail(), "Confirmation of creating a new account on SinglePlace Assistant. " + new Date(),
                     String.format("Click here: '%s/emailConfirm/%s' to confirm registration with user: %s. Or ignore this email if you don't want",
                             appProperties.getFrontUrl(), confirmString, user.getLogin())
             );

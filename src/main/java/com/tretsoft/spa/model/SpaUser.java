@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Builder
 @Entity
 @Table
+@Inheritance(strategy = InheritanceType.JOINED)
 public class SpaUser implements UserDetails {
 
     @Id

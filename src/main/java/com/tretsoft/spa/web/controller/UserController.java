@@ -1,8 +1,8 @@
 package com.tretsoft.spa.web.controller;
 
 import com.tretsoft.spa.exception.BaseException;
-import com.tretsoft.spa.service.AuthenticationService;
-import com.tretsoft.spa.service.UserService;
+import com.tretsoft.spa.service.auth.AuthenticationService;
+import com.tretsoft.spa.service.auth.UserService;
 import com.tretsoft.spa.web.dto.ResponseError;
 import com.tretsoft.spa.web.dto.SpaUserDto;
 import com.tretsoft.spa.web.dto.UserLoginDto;

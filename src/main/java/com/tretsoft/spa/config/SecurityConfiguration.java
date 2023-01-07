@@ -16,13 +16,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
-//@EnableMethodSecurity
 public class SecurityConfiguration {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final CorsProperties corsConfig;
-//    private final CustomUserDetailsService userDetailsService;
-//    private final PasswordEncoder passwordEncoder;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,25 +38,11 @@ public class SecurityConfiguration {
                         ).permitAll()
 
                         .requestMatchers("/phone","/phone/**").hasAnyAuthority("PAGE_PHONE")
+                        .requestMatchers("/api/feeding/*").hasAnyAuthority("PAGE_FEEDING")
 
                         .anyRequest().authenticated()
                 ).build();
     }
-
-    /*
-    TODO: remove comment below
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder);
-        return authProvider;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }*/
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {

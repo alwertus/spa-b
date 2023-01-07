@@ -1,4 +1,4 @@
-package com.tretsoft.spa.service.utility;
+package com.tretsoft.spa.service.auth;
 
 import com.auth0.jwt.JWT;
 import com.tretsoft.spa.config.props.JwtProperties;

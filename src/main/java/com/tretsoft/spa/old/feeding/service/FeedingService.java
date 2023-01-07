@@ -1,0 +1,133 @@
+package com.tretsoft.spa.old.feeding.service;
+
+import com.tretsoft.spa.old.feeding.model.Feeding;
+import com.tretsoft.spa.old.feeding.model.FeedingProperties;
+import com.tretsoft.spa.old.feeding.model.FeedingUserOptions;
+import com.tretsoft.spa.old.feeding.repo.FeedingOptionsRepository;
+import com.tretsoft.spa.old.feeding.repo.FeedingPropertiesRepository;
+import com.tretsoft.spa.old.feeding.repo.FeedingRepository;
+import com.tretsoft.spa.service.auth.AuthenticationService;
+import com.tretsoft.spa.service.utility.RandomStringGenerator;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+@Log4j2
+@Service
+@RequiredArgsConstructor
+public class FeedingService {
+
+    private final FeedingOptionsRepository feedingOptionsRepository;
+    private final AuthenticationService authenticationService;
+    private final RandomStringGenerator randomStringGenerator;
+    private final FeedingRepository feedingRepository;
+    private final FeedingPropertiesRepository feedingPropertiesRepository;
+
+    private Optional<FeedingUserOptions> getCurrentUserOptions() {
+        return feedingOptionsRepository
+                .findByUserId(authenticationService.getCurrentUser().getId());
+    }
+
+    private String getAccessIdOrThrowError() {
+        return getCurrentUserOptions()
+                .orElseThrow(() -> new RuntimeException("Cannot get current user AccessId"))
+                .getAccessId();
+    }
+
+    public boolean isUserGetAccess() {
+        Optional<FeedingUserOptions> userOptions = getCurrentUserOptions();
+
+        return userOptions.isPresent()
+                && userOptions.get().getAccessId() != null
+                && !userOptions.get().getAccessId().isEmpty();
+    }
+
+    public void createNewAccess() {
+        FeedingProperties props = new FeedingProperties();
+        props.setId(randomStringGenerator.generateString(10));
+        feedingPropertiesRepository.save(props);
+
+        FeedingUserOptions newUserOptions = new FeedingUserOptions();
+        newUserOptions.setUser(authenticationService.getCurrentUser());
+        newUserOptions.setAccessId(props.getId());
+        feedingOptionsRepository.save(newUserOptions);
+    }
+
+    public void addAccess(@NonNull String accessId) {
+        feedingPropertiesRepository
+                .findById(accessId)
+                .orElseThrow(() -> new RuntimeException(String.format("Invite string '%s' not found", accessId)));
+
+        FeedingUserOptions newUserOptions = new FeedingUserOptions();
+        newUserOptions.setUser(authenticationService.getCurrentUser());
+        newUserOptions.setAccessId(accessId);
+        feedingOptionsRepository.save(newUserOptions);
+    }
+
+    public List<Feeding> getData() {
+        Optional<FeedingUserOptions> userOptions = getCurrentUserOptions();
+        if (userOptions.isEmpty())
+            return Collections.emptyList();
+
+        return feedingRepository.findFirst20ByAccessIdOrderByStartDesc(userOptions.get().getAccessId());
+    }
+
+    public Long getActiveTimer() {
+        return feedingRepository.getLastTimer(getAccessIdOrThrowError());
+    }
+
+    public String getInterval() {
+        FeedingProperties props = feedingPropertiesRepository
+                .findById(getAccessIdOrThrowError())
+                .orElseThrow(() -> new RuntimeException("Interval not exists"));
+        return String.format("%02d", props.getIntervalHour()) + ":" + String.format("%02d", props.getIntervalMin());
+
+    }
+
+    public void newTimer(String breast) {
+        FeedingProperties props = feedingPropertiesRepository
+                .findById(getAccessIdOrThrowError())
+                .orElseThrow(() -> new RuntimeException("Interval not exists"));
+
+        Feeding feeding = new Feeding();
+
+        feeding.setStart(Calendar.getInstance());
+
+        Calendar stop = Calendar.getInstance();
+        stop.add(Calendar.HOUR_OF_DAY, props.getIntervalHour());
+        stop.add(Calendar.MINUTE, props.getIntervalMin());
+        feeding.setStop(stop);
+
+        feeding.setAccessId(getAccessIdOrThrowError());
+
+        if (breast.length() > 0)
+            feeding.setBreast(breast.substring(0, 1));
+
+        feedingRepository.save(feeding);
+    }
+
+    public void newInterval(int hour, int min) {
+        FeedingProperties props = feedingPropertiesRepository
+                .findById(getAccessIdOrThrowError())
+                .orElseThrow(() -> new RuntimeException("Interval not exists"));
+        props.setIntervalHour(hour);
+        props.setIntervalMin(min);
+
+        feedingPropertiesRepository.save(props);
+    }
+
+    public String getInviteString() {
+        Optional<FeedingUserOptions> userOptions = getCurrentUserOptions();
+        if (userOptions.isEmpty())
+            return null;
+
+        return userOptions.get().getAccessId();
+    }
+
+}

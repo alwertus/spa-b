@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tretsoft.spa.config.props.JwtProperties;
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.SimpleException;
-import com.tretsoft.spa.service.AuthenticationService;
+import com.tretsoft.spa.service.auth.AuthenticationService;
 import com.tretsoft.spa.web.dto.ResponseError;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
