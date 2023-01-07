@@ -26,8 +26,9 @@ public class PhoneSchedulerConfiguration {
                 .collect(Collectors.toList());
     }
 
-    @Scheduled(fixedDelay = 1000*60*60)
+    @Scheduled(fixedDelay = 1000*30)
     public void test() {
+        log.info("Begin get phone data");
         for (PhoneGsmService phone : phoneList) {
             phone.initialize();
             ArrayList<PhoneSms> sms = phone.readSms();
@@ -36,5 +37,6 @@ public class PhoneSchedulerConfiguration {
             }
             phone.closePort();
         }
+        log.info("End get phone data");
     }
 }
