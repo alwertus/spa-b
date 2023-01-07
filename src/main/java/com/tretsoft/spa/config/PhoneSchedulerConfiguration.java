@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @Configuration
-@EnableScheduling
+//@EnableScheduling
 public class PhoneSchedulerConfiguration {
-    List<PhoneGsmService> phoneList;
+    private List<PhoneGsmService> phoneList;
 
     public PhoneSchedulerConfiguration(PhoneService phoneService) {
         phoneList = phoneService
@@ -26,7 +26,7 @@ public class PhoneSchedulerConfiguration {
                 .collect(Collectors.toList());
     }
 
-    @Scheduled(fixedDelay = 1000*30)
+//    @Scheduled(fixedDelay = 30000)
     public void test() {
         log.info("Begin get phone data");
         for (PhoneGsmService phone : phoneList) {

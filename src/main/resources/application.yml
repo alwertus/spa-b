@@ -33,6 +33,7 @@ spring:
 application:
   frontUrl: http://localhost:3000
   mockEmailSending: true
+  phoneReadDataDelay: 30000
   jwt:
     secretKey: securesecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecuresecure
     tokenPrefix: Bearer.
