@@ -27,6 +27,9 @@ public class Sms {
     private Calendar created;
 
     @Column
+    private Calendar eventDate;
+
+    @Column
     private String sender;
 
     @Column
