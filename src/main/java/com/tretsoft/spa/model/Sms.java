@@ -31,4 +31,10 @@ public class Sms {
 
     @Column
     private String message;
+
+    @Column
+    private String comment;
+
+    @Column(length = 3)
+    private String direction;
 }

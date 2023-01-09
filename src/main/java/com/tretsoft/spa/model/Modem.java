@@ -16,4 +16,9 @@ public class Modem {
     @Column
     String port;
 
+    @Column
+    String label;
+
+    @Column
+    Boolean enabled;
 }
