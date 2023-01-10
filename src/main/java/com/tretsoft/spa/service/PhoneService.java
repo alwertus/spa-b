@@ -1,5 +1,7 @@
 package com.tretsoft.spa.service;
 
+import com.tretsoft.spa.exception.BadRequestException;
+import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.exception.SimpleException;
 import com.tretsoft.spa.model.Modem;
 import com.tretsoft.spa.model.UserPhoneConfig;
@@ -27,10 +29,35 @@ public class PhoneService {
     }
 
     public List<Sms> getSms() {
+        return smsRepository.findByModemId(getModemForCurrentUser().getId());
+    }
+
+    public void markSmsAsRead(Long smsId) {
+        Sms sms = smsRepository.findById(smsId)
+                .orElseThrow(() -> new BadRequestException("id"));
+
+        if (!sms.getModem().equals(getModemForCurrentUser()))
+            throw new ForbiddenException("SMS id=" + smsId);
+
+        sms.setRead(true);
+        smsRepository.save(sms);
+    }
+
+    public void deleteSms(Long smsId) {
+        Sms sms = smsRepository.findById(smsId)
+                .orElseThrow(() -> new BadRequestException("id"));
+
+        if (!sms.getModem().equals(getModemForCurrentUser()))
+            throw new ForbiddenException("SMS id=" + smsId);
+
+        smsRepository.delete(sms);
+    }
+
+    public Modem getModemForCurrentUser() {
         UserPhoneConfig phoneConfig = phoneConfigRepository
                 .findById(authenticationService.getCurrentUser().getId())
                 .orElseThrow(() -> new SimpleException("Phone not configured for this user"));
-        return smsRepository.findByModemId(phoneConfig.getModem().getId());
+        return phoneConfig.getModem();
     }
 
 }

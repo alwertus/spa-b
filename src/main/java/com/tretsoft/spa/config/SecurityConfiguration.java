@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                                 "/user"
                         ).permitAll()
 
-                        .requestMatchers("/phone","/phone/**").hasAnyAuthority("PAGE_PHONE")
+                        .requestMatchers("/phone","/phone/**", "phone/sms/**").hasAnyAuthority("PAGE_PHONE")
                         .requestMatchers("/api/feeding/*").hasAnyAuthority("PAGE_FEEDING")
 
                         .anyRequest().authenticated()

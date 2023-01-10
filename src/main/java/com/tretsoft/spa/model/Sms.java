@@ -40,4 +40,7 @@ public class Sms {
 
     @Column(length = 3)
     private String direction;
+
+    @Column
+    private Boolean read;
 }
