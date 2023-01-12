@@ -7,7 +7,6 @@ import java.util.Calendar;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,9 +26,6 @@ public class Sms {
     private Calendar created;
 
     @Column
-    private Calendar eventDate;
-
-    @Column
     private String sender;
 
     @Column
@@ -43,4 +39,22 @@ public class Sms {
 
     @Column
     private Boolean read;
+
+    @Column
+    private String nature;
+
+    @Override
+    public String toString() {
+        return "Sms{" +
+                "\n\tid=" + id +
+                ", \n\tmodem='" + modem.getPort() + '\'' +
+                ", \n\tnature='" + nature + '\'' +
+                ", \n\tcreated=" + (created == null ? "null" : created.getTime()) + '\'' +
+                ", \n\tsender='" + sender + '\'' +
+                ", \n\tmessage='" + message + '\'' +
+                ", \n\tcomment='" + comment + '\'' +
+                ", \n\tdirection='" + direction + '\'' +
+                ", \n\tread=" + read +
+                '}';
+    }
 }

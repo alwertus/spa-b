@@ -29,7 +29,7 @@ public class PhoneController {
                 .stream()
                 .map(e -> new SmsDto(
                         e.getId(),
-                        e.getEventDate() == null ? null : e.getEventDate().getTimeInMillis(),
+                        e.getCreated() == null ? null : e.getCreated().getTimeInMillis(),
                         e.getSender(),
                         e.getMessage(),
                         e.getRead(),
