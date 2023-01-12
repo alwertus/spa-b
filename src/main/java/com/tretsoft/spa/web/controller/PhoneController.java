@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class PhoneController {
     private final PhoneService phoneService;
 
-    private record SmsDto(Long id, Long created, String sender, String message, Boolean read, String direction){}
+    private record SmsDto(Long id, Long created, String number, String message, Boolean read, String direction){}
 
     @GetMapping("/sms")
     public List<SmsDto> getSms() {
@@ -42,6 +42,12 @@ public class PhoneController {
     public void deleteSms(@RequestBody SmsDto sms) {
         log.info("Delete sms id=" + sms.id);
         phoneService.deleteSms(sms.id);
+    }
+
+    @PostMapping("/sms")
+    public void sendSms(@RequestBody SmsDto sms) {
+        log.info("Send sms to {} '{}'", sms.number, sms.message);
+        phoneService.sendSms(sms.number, sms.message);
     }
 
     @PostMapping("/sms/setRead")

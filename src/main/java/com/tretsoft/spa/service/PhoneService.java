@@ -13,6 +13,7 @@ import com.tretsoft.spa.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -58,6 +59,19 @@ public class PhoneService {
                 .findById(authenticationService.getCurrentUser().getId())
                 .orElseThrow(() -> new SimpleException("Phone not configured for this user"));
         return phoneConfig.getModem();
+    }
+
+    public void sendSms(String phoneNumber, String smsText) {
+        Sms sms = Sms.builder()
+                .modem(getModemForCurrentUser())
+                .sender(phoneNumber)
+                .message(smsText)
+                .created(Calendar.getInstance())
+                .direction("OUT")
+                .nature("SMS")
+                .read(true)
+                .build();
+        smsRepository.save(sms);
     }
 
 }
