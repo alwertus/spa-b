@@ -15,7 +15,7 @@ import java.util.Calendar;
 public class Sms {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(cascade = CascadeType.DETACH)

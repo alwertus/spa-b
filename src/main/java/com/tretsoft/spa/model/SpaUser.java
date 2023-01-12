@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class SpaUser implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 100, unique = true, nullable = false)

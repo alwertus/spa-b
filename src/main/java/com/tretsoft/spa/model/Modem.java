@@ -10,7 +10,7 @@ import lombok.Setter;
 @Table
 public class Modem {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @Column
