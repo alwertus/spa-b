@@ -1,6 +1,6 @@
 package com.tretsoft.spa.repository;
 
-import com.tretsoft.spa.model.Sms;
+import com.tretsoft.spa.model.phone.Sms;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

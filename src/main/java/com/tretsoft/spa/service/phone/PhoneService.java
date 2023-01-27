@@ -1,11 +1,11 @@
-package com.tretsoft.spa.service;
+package com.tretsoft.spa.service.phone;
 
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.exception.SimpleException;
-import com.tretsoft.spa.model.Modem;
-import com.tretsoft.spa.model.UserPhoneConfig;
-import com.tretsoft.spa.model.Sms;
+import com.tretsoft.spa.model.phone.Modem;
+import com.tretsoft.spa.model.phone.UserPhoneConfig;
+import com.tretsoft.spa.model.phone.Sms;
 import com.tretsoft.spa.repository.PhoneConfigRepository;
 import com.tretsoft.spa.repository.PhoneRepository;
 import com.tretsoft.spa.repository.SmsRepository;

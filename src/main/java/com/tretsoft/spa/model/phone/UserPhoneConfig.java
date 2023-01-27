@@ -1,6 +1,7 @@
-package com.tretsoft.spa.model;
+package com.tretsoft.spa.model.phone;
 
 
+import com.tretsoft.spa.model.SpaUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.tretsoft.spa.model;
+package com.tretsoft.spa.model.phone;
 
 import jakarta.persistence.*;
 import lombok.Getter;

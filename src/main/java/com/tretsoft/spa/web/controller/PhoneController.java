@@ -1,7 +1,7 @@
 package com.tretsoft.spa.web.controller;
 
 import com.tretsoft.spa.exception.BaseException;
-import com.tretsoft.spa.service.PhoneService;
+import com.tretsoft.spa.service.phone.PhoneService;
 import com.tretsoft.spa.web.dto.ResponseError;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
