@@ -28,7 +28,7 @@ public class Sms {
     @Column
     private String sender;
 
-    @Column
+    @Column(length = 1024)
     private String message;
 
     @Column
