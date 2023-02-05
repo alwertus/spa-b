@@ -1,9 +1,7 @@
 package com.tretsoft.spa.web.controller;
 
-import com.tretsoft.spa.exception.BaseException;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import com.tretsoft.spa.service.auth.UserService;
-import com.tretsoft.spa.web.dto.ResponseError;
 import com.tretsoft.spa.web.dto.SpaUserDto;
 import com.tretsoft.spa.web.dto.UserLoginDto;
 import com.tretsoft.spa.web.validator.SpaUserValidator;
@@ -13,7 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +21,7 @@ import java.util.List;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Tag(name = "User", description = "User operations")
-public class UserController {
+public class UserController extends BaseController {
 
     private final UserService userService;
     private final SpaUserValidator userValidator;
@@ -76,17 +73,5 @@ public class UserController {
     public List<String> getUserList() {
         return userService.getAllUsers();
     }
-
-
-    @ExceptionHandler()
-    public ResponseEntity<Object> exceptionHandler(BaseException ex) {
-        log.error(ex.getMessage());
-
-        return ResponseEntity
-                .badRequest()
-                .body(new ResponseError(ex));
-    }
-
-//    @Parameter(description = "Фильтрация по нназванию судна") @Nullable @RequestParam("name") String name,
 
 }

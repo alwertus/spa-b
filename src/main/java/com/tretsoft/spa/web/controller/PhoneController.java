@@ -1,12 +1,9 @@
 package com.tretsoft.spa.web.controller;
 
-import com.tretsoft.spa.exception.BaseException;
 import com.tretsoft.spa.service.phone.PhoneService;
-import com.tretsoft.spa.web.dto.ResponseError;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +15,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/phone")
 @RequiredArgsConstructor
 @Tag(name = "Phone", description = "Access to 3g modem")
-public class PhoneController {
+public class PhoneController extends BaseController {
     private final PhoneService phoneService;
 
     private record SmsDto(Long id, Long created, String number, String message, Boolean read, String direction){}
@@ -55,15 +52,6 @@ public class PhoneController {
     public void markSmsAsRead(@RequestBody SmsDto sms) {
         log.info("Mark sms id={} as read", sms.id);
         phoneService.markSmsAsRead(sms.id);
-    }
-
-    @ExceptionHandler()
-    public ResponseEntity<Object> exceptionHandler(BaseException ex) {
-        log.error(ex.getMessage());
-
-        return ResponseEntity
-                .badRequest()
-                .body(new ResponseError(ex));
     }
 
 }
