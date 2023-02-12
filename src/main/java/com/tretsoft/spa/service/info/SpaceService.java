@@ -1,5 +1,6 @@
 package com.tretsoft.spa.service.info;
 
+import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.exception.NullAttributeException;
 import com.tretsoft.spa.model.SpaUser;
@@ -26,6 +27,11 @@ public class SpaceService {
         return isPrivate
                 ? spaceRepository.findAllByIsPrivateIsTrueAndCreatedByEquals(user)
                 : spaceRepository.findAllByIsPrivateIsFalseOrIsPrivateIsNull();
+    }
+
+    public Space getById(Long spaceId) {
+        // TODO: check available spaceid to current user
+        return spaceRepository.findById(spaceId).orElseThrow(() -> new BadRequestException("spaceId"));
     }
 
     public Space create(SpaceDto dto) {

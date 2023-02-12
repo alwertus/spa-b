@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 @Log4j2
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/info")
-public class InfoController extends BaseController {
+@RequestMapping("/info-space")
+public class InfoSpaceController extends BaseController {
 
     private final SpaceService spaceService;
 
 
-    @GetMapping("/space")
+    @GetMapping
     public List<SpaceDto> getSpaces(@RequestParam(name = "isPrivate", required = false, defaultValue = "true") Boolean isPrivate) {
 
         log.info("Get spaces. scope=" + (isPrivate ? "private" : "public"));
@@ -31,19 +31,19 @@ public class InfoController extends BaseController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/space")
+    @PostMapping
     public SpaceDto createSpace(@RequestBody SpaceDto dto) {
         return spaceService.create(dto).toDto();
     }
 
-    @PutMapping("/space")
+    @PutMapping
     public SpaceDto updateSpace(@RequestBody SpaceDto dto) {
+        log.info("Update space: " + dto);
         return spaceService.update(dto).toDto();
     }
 
-    @DeleteMapping("/space")
+    @DeleteMapping
     public void deleteSpace(@RequestBody SpaceDto dto) {
         spaceService.delete(dto.id());
     }
-
 }
