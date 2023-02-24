@@ -24,6 +24,8 @@ public class InfoPageController extends BaseController {
     private final PageService pageService;
     private final SpaceService spaceService;
 
+    // TODO: add mapper
+
     @GetMapping("/list")
     public List<PageListItemDto> getPages(@RequestParam(name = "spaceId") Long spaceId) {
         log.info("Get pages by spaceId=" + spaceId);
@@ -89,6 +91,7 @@ public class InfoPageController extends BaseController {
     @PutMapping("/list")
     public PageListItemDto updatePageList(@RequestBody PageListItemDto dto) {
         Page page = pageService.getPage(dto.spaceId(), dto.id());
+        // TODO: move position logic to service
         if (dto.position() != null) {
             page.setPosition(
                     (page.getPosition() == null
@@ -99,9 +102,16 @@ public class InfoPageController extends BaseController {
         if (dto.title() != null) page.setTitle(dto.title());
         if (dto.parentId() != null) page.setParent(pageService.getPage(dto.spaceId(), dto.parentId()));
 
-        return pageService.update(page).toPageListItemDto();
+        return pageService.update(page.toPageDto()).toPageListItemDto();
     }
 
-//    @PutMapping
-//    updatePage
+    @PutMapping
+    public PageDto updatePage(@RequestBody PageDto dto) {
+        if (dto.id() == null)
+            throw new BadRequestException("[id] is null");
+        if (dto.spaceId() == null)
+            throw new BadRequestException("[spaceId] is null");
+
+        return pageService.update(dto).toPageDto();
+    }
 }

@@ -46,5 +46,6 @@
         <logger name="javax.management" level="WARN"/>
         <logger name="org.apache" level="WARN"/>
         <logger name="java.io.serialization" level="WARN"/>
+        <logger name="jdk.event.security" level="WARN"/>
     </Loggers>
 </Configuration>

@@ -8,5 +8,5 @@ public record PageListItemDto(Long id,
                               Long spaceId,
                               Long parentId,
                               List<PageListItemDto> children
-                              ){
+                              ) {
 }

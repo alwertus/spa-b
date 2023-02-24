@@ -33,9 +33,8 @@ public class Page {
     @Column(name = "title")
     private String title;
 
-    @Lob
     @Lazy
-    @Column(name = "html", columnDefinition = "TEXT")
+    @Column(name = "html", columnDefinition = "text")
     private String html;
 
     @ColumnDefault("0")
@@ -62,6 +61,6 @@ public class Page {
         return new PageListItemDto(id, title, position, space.getId(), parent != null ? parent.getId() : null, null);
     }
     public PageDto toPageDto() {
-        return new PageDto(id, title, space.getId(), html);
+        return new PageDto(id, title, space.getId(), position, html);
     }
 }

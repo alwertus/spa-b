@@ -2,9 +2,9 @@ package com.tretsoft.spa.service.info;
 
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.model.info.Page;
+import com.tretsoft.spa.model.info.PageDto;
 import com.tretsoft.spa.model.info.Space;
 import com.tretsoft.spa.repository.PageRepository;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -57,10 +57,14 @@ public class PageService {
         pageRepository.deleteById(pageId);
     }
 
-    public Page update(Page page) {
+    public Page update(PageDto dto) {
         // TODO: check user can update this page
         // TODO: if position updated -> switch position to another page
-        return pageRepository.saveAndFlush(page);
+        Page originalPage = getPage(dto.spaceId(), dto.id());
+        originalPage.setHtml(dto.html());
+//        if (dto.page.getPosition() != null) originalPage.setPosition(page.getPosition());
+
+        return pageRepository.saveAndFlush(originalPage);
     }
 
 }
