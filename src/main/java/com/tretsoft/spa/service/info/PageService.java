@@ -32,7 +32,7 @@ public class PageService {
 
         Page page = pageRepository.getById(pageId);
         if (!page.getSpace().getId().equals(spaceId)) {
-            throw new BadRequestException("Page id='" +  + pageId + "' not contains from space='" + spaceId + "'");
+            throw new BadRequestException("Page id='" + pageId + "' not contains from space='" + spaceId + "'");
         }
         return page;
     }
