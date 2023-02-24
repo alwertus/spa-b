@@ -27,6 +27,9 @@ public class PageService {
     }
 
     public Page getPage(Long spaceId, Long pageId) {
+        if (pageId == null)
+            throw new BadRequestException("PageId = null");
+
         Page page = pageRepository.getById(pageId);
         if (!page.getSpace().getId().equals(spaceId)) {
             throw new BadRequestException("Page id='" +  + pageId + "' not contains from space='" + spaceId + "'");

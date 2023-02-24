@@ -4,6 +4,7 @@ import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.model.info.Page;
 import com.tretsoft.spa.model.info.PageDto;
 import com.tretsoft.spa.model.info.PageListItemDto;
+import com.tretsoft.spa.model.info.Space;
 import com.tretsoft.spa.service.info.PageService;
 import com.tretsoft.spa.service.info.SpaceService;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,10 @@ public class InfoPageController extends BaseController {
     @GetMapping("/list")
     public List<PageListItemDto> getPages(@RequestParam(name = "spaceId") Long spaceId) {
         log.info("Get pages by spaceId=" + spaceId);
-
-        return extractChildrenElements(
-                null,
-                pageService.getAll(spaceService.getById(spaceId)));
+        Space space = spaceService.getById(spaceId);
+        List<Page> sourceList = pageService.getAll(space);
+        List<PageListItemDto> response = extractChildrenElements(null, sourceList);
+        return response;
     }
 
     private List<PageListItemDto> extractChildrenElements(Long parentId, List<Page> sourceList) {
@@ -60,7 +61,12 @@ public class InfoPageController extends BaseController {
         if (dto.spaceId() == null) {
             throw new BadRequestException("spaceId");
         }
-        Page parentPage = pageService.getPage(dto.spaceId(), dto.parentId());
+
+        Page parentPage = null;
+        if (dto.parentId() != null) {
+            parentPage = pageService.getPage(dto.spaceId(), dto.parentId());
+        }
+
         log.debug("Parent page: {}", parentPage);
 
         return pageService
@@ -81,7 +87,7 @@ public class InfoPageController extends BaseController {
     }
 
     @PutMapping("/list")
-    public PageListItemDto updatePage(@RequestBody PageListItemDto dto) {
+    public PageListItemDto updatePageList(@RequestBody PageListItemDto dto) {
         Page page = pageService.getPage(dto.spaceId(), dto.id());
         if (dto.position() != null) {
             page.setPosition(
@@ -95,4 +101,7 @@ public class InfoPageController extends BaseController {
 
         return pageService.update(page).toPageListItemDto();
     }
+
+//    @PutMapping
+//    updatePage
 }
