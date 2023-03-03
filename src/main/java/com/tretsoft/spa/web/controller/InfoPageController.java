@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/info-page")
-public class InfoPageController extends BaseController {
+public class InfoPageController extends ExceptionHandlerController {
 
     private final PageService pageService;
     private final SpaceService spaceService;
@@ -31,8 +31,7 @@ public class InfoPageController extends BaseController {
         log.info("Get pages by spaceId=" + spaceId);
         Space space = spaceService.getById(spaceId);
         List<Page> sourceList = pageService.getAll(space);
-        List<PageListItemDto> response = extractChildrenElements(null, sourceList);
-        return response;
+        return extractChildrenElements(null, sourceList);
     }
 
     private List<PageListItemDto> extractChildrenElements(Long parentId, List<Page> sourceList) {

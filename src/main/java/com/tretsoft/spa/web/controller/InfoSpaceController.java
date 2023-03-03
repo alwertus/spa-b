@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/info-space")
-public class InfoSpaceController extends BaseController {
+public class InfoSpaceController extends ExceptionHandlerController {
 
     private final SpaceService spaceService;
 

@@ -23,5 +23,6 @@ public class FirstRunService {
         roleService.createRole("PAGE_INFO", true);
         roleService.createRole("PAGE_PHONE", false);
         roleService.createRole("PAGE_FEEDING", false);
+        roleService.createRole("PAGE_DOINGS", true);
     }
 }

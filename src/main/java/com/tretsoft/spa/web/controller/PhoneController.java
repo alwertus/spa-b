@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// TODO: Add swagger
 @Log4j2
 @RestController
 @RequestMapping("/phone")
 @RequiredArgsConstructor
 @Tag(name = "Phone", description = "Access to 3g modem")
-public class PhoneController extends BaseController {
+public class PhoneController extends ExceptionHandlerController {
     private final PhoneService phoneService;
 
     private record SmsDto(Long id, Long created, String number, String message, Boolean read, String direction){}

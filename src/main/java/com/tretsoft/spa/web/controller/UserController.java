@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Tag(name = "User", description = "User operations")
-public class UserController extends BaseController {
+public class UserController extends ExceptionHandlerController {
 
     private final UserService userService;
     private final SpaUserValidator userValidator;
