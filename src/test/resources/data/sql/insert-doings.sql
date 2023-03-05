@@ -11,7 +11,6 @@ insert into do_task_list (id, name, start_date, user_id)
 values (1000, 'taskForUpdate', now(), (select id from spa_user where login = 'userForUpdate')),
        (1001, 'taskForAddLabel', now(), (select id from spa_user where login = 'userForUpdate')),
        (1002, 'taskForAddLabel2', now(), (select id from spa_user where login = 'userForUpdate')),
-       -- tasks for report
        (1100, 'Work', null, 6),
        (1101, 'Sleep', null, 6),
        (1102, 'Video', null, 6),
@@ -30,7 +29,6 @@ values ('Useful', null, (select id from spa_user where login = 'user1')),
 insert into do_label_list (id, name, color, user_id)
 values (1000, 'OldValue', '#000000', (select id from spa_user where login = 'userForUpdate')),
        (1001, 'LabelToAdd', null, (select id from spa_user where login = 'userForUpdate')),
-       -- labels for report
        (1100, 'Routines', null, 6),
        (1101, 'Rest', null, 6),
        (1102, 'Useful', null, 6);
@@ -38,8 +36,8 @@ values (1000, 'OldValue', '#000000', (select id from spa_user where login = 'use
 
 -- add label to taks
 insert into do_task_label (task_id, label_id)
-values ((select id from do_task_list where name='Work'), (select id from do_label_list where name='Useful')),
-       ((select id from do_task_list where name='Sleep'), (select id from do_label_list where name='Rest')),
+values ((select id from do_task_list where name='Work' and user_id = (select id from spa_user where login = 'user1')), (select id from do_label_list where name='Useful' and user_id = (select id from spa_user where login = 'user1'))),
+       ((select id from do_task_list where name='Sleep' and user_id = (select id from spa_user where login = 'user1')), (select id from do_label_list where name='Rest' and user_id = (select id from spa_user where login = 'user1'))),
        (1100, 1100),
        (1101, 1100),
        (1102, 1101),
@@ -53,7 +51,7 @@ values (timestamp '2023-01-01 01:00', timestamp '2023-01-01 03:00', (select id f
        (timestamp '2023-01-01 03:15', timestamp '2023-01-01 05:00', (select id from do_task_list where name='Work' and user_id = ((select id from spa_user where login = 'user1'))));
 
 -- log for report
-insert into do_log (start_date, end_date, task_id)
+/*insert into do_log (start_date, end_date, task_id)
 values (timestamp '2023-01-01 10:00', timestamp '2023-01-01 19:00', 1100), -- work
        (timestamp '2023-01-02 10:00', timestamp '2023-01-02 19:00', 1100),
        (timestamp '2023-01-03 10:00', timestamp '2023-01-03 19:00', 1100),
@@ -84,4 +82,4 @@ values (timestamp '2023-01-01 10:00', timestamp '2023-01-01 19:00', 1100), -- wo
        (timestamp '2023-01-03 21:00', timestamp '2023-01-03 23:00', 1104),
        (timestamp '2023-01-04 21:00', timestamp '2023-01-04 23:00', 1104),
        (timestamp '2023-01-05 21:00', timestamp '2023-01-05 23:00', 1104)
-;
+;*/
