@@ -6,7 +6,8 @@ VALUES (1, now(), 'user1@mail.com', null, null, 'user1', '$2a$12$yygDQh2UOxu0o2Q
        (2, now(), 'user2@mail.com', null, null, 'user2', '$2a$12$yygDQh2UOxu0o2Qp8LGWyOiLBumhyAa1H/sDsW69Ma6pPvQvmPep.', 0, null),
        (3, now(), 'user3@mail.com', null, null, 'userForCreate', '$2a$12$yygDQh2UOxu0o2Qp8LGWyOiLBumhyAa1H/sDsW69Ma6pPvQvmPep.', 0, null),
        (4, now(), 'user4@mail.com', null, null, 'userForDel', '$2a$12$yygDQh2UOxu0o2Qp8LGWyOiLBumhyAa1H/sDsW69Ma6pPvQvmPep.', 0, null),
-       (5, now(), 'user5@mail.com', null, null, 'userForUpdate', '$2a$12$yygDQh2UOxu0o2Qp8LGWyOiLBumhyAa1H/sDsW69Ma6pPvQvmPep.', 0, null);
+       (5, now(), 'user5@mail.com', null, null, 'userForUpdate', '$2a$12$yygDQh2UOxu0o2Qp8LGWyOiLBumhyAa1H/sDsW69Ma6pPvQvmPep.', 0, null),
+       (6, now(), 'user6@mail.com', null, null, 'userForReport', '$2a$12$yygDQh2UOxu0o2Qp8LGWyOiLBumhyAa1H/sDsW69Ma6pPvQvmPep.', 0, null);
 
 INSERT INTO spa_role (id, created, is_default, name) VALUES (1, now(), false, 'OWNER'),
                                                             (2, now(), false, 'ADMIN'),

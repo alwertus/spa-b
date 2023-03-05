@@ -2,6 +2,7 @@ package com.tretsoft.spa.service.doings;
 
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.ForbiddenException;
+import com.tretsoft.spa.exception.MethodNotSupportedException;
 import com.tretsoft.spa.exception.NullAttributeException;
 import com.tretsoft.spa.model.doings.DoLabel;
 import com.tretsoft.spa.repository.DoLabelRepository;
@@ -59,6 +60,6 @@ public class DoLabelService implements CurdService<DoLabel> {
 
     @Override
     public void delete(Long id) {
-
+        throw new MethodNotSupportedException();
     }
 }

@@ -40,7 +40,10 @@ public class SecurityConfiguration {
                         .requestMatchers("/phone","/phone/**", "phone/sms/**").hasAnyAuthority("PAGE_PHONE")
                         .requestMatchers("/api/feeding/*").hasAnyAuthority("PAGE_FEEDING")
                         .requestMatchers("/info", "/info/*").hasAnyAuthority("PAGE_INFO")
-                        .requestMatchers("/doings-task", "/doings-task/*", "/doings-label", "/doings-label/*").hasAnyAuthority("PAGE_DOINGS")
+                        .requestMatchers("/doings-task", "/doings-task/*",
+                                "/doings-label", "/doings-label/*",
+                                "/doings-log", "/doings-log/*"
+                                ).hasAnyAuthority("PAGE_DOINGS")
 
                         .anyRequest().authenticated()
                 ).build();

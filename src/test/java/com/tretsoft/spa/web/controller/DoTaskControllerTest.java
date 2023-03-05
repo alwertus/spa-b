@@ -33,14 +33,15 @@ class DoTaskControllerTest extends BaseIntegrationTest {
 
     @Test
     void getAllTasks() throws Exception {
+        // 2 records for user1
         mockMvc.perform(get(URL)
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUserFromFile("user1-login"))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()").value(2))
                 .andExpect(jsonPath("$[0]['labels'].length()").value(1))
-                .andExpect(jsonPath("$[1]['labels'].length()").value(1))
-        ;
+                .andExpect(jsonPath("$[1]['labels'].length()").value(1));
 
+        // 1 records for user2
         mockMvc.perform(get(URL)
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUserFromFile("user2-login"))
                         .contentType(MediaType.APPLICATION_JSON))

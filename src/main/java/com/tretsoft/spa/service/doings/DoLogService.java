@@ -1,0 +1,46 @@
+package com.tretsoft.spa.service.doings;
+
+import com.tretsoft.spa.exception.MethodNotSupportedException;
+import com.tretsoft.spa.model.doings.DoLog;
+import com.tretsoft.spa.repository.DoLogRepository;
+import com.tretsoft.spa.service.CurdService;
+import com.tretsoft.spa.service.auth.AuthenticationService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Log4j2
+@RequiredArgsConstructor
+@Service
+public class DoLogService implements CurdService<DoLog> {
+
+    private final DoLogRepository doLogRepository;
+    private final AuthenticationService authenticationService;
+
+    @Override
+    public List<DoLog> getAll() {
+        return doLogRepository.findAllByUser(authenticationService.getCurrentUser());
+    }
+
+    public List<DoLog> getAllByInterval() {
+        throw new MethodNotSupportedException();
+    }
+
+    @Override
+    public DoLog create(DoLog obj) {
+        log.info("[" + authenticationService.getCurrentUser().getLogin() + "]: Create log: " + obj);
+        return doLogRepository.save(obj);
+    }
+
+    @Override
+    public DoLog update(DoLog obj) {
+        throw new MethodNotSupportedException();
+    }
+
+    @Override
+    public void delete(Long id) {
+        throw new MethodNotSupportedException();
+    }
+}

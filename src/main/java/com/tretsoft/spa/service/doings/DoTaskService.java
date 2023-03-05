@@ -4,6 +4,7 @@ import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.model.SpaUser;
 import com.tretsoft.spa.model.doings.DoLabel;
+import com.tretsoft.spa.model.doings.DoLog;
 import com.tretsoft.spa.model.doings.DoTask;
 import com.tretsoft.spa.repository.DoTaskRepository;
 import com.tretsoft.spa.service.CurdService;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Log4j2
@@ -22,6 +24,7 @@ public class DoTaskService implements CurdService<DoTask> {
     private final DoTaskRepository doTaskRepository;
     private final AuthenticationService authenticationService;
     private final DoLabelService doLabelService;
+    private final DoLogService doLogService;
 
     @Override
     public List<DoTask> getAll() {
@@ -39,15 +42,27 @@ public class DoTaskService implements CurdService<DoTask> {
             throw new ForbiddenException("Task id=" + obj.getId());
         }
 
+        // if task was active and now inactive -> create log record
+//        log.info("\nOld task = {}\nNew task = {}", task, obj);
+        if (obj.getStartDate() == null && task.getStartDate() != null) {
+            doLogService.create(DoLog
+                    .builder()
+                    .startDate(task.getStartDate())
+                    .endDate(Calendar.getInstance())
+                    .task(task)
+                    .build());
+        }
+
         task.setChecked(obj.getChecked());
         task.setName(obj.getName());
-        task.setStart_date(obj.getStart_date());
+        task.setStartDate(obj.getStartDate());
+        final List<DoLabel> LABELS = task.getLabels();
 
         if (obj.getLabels() != null) {
             // new labels that has id
             List<DoLabel> labelsToAdd = obj.getLabels()
                     .stream()
-                    .filter(e -> !task.getLabels().contains(e) && e.getId() != null)
+                    .filter(e -> !LABELS.contains(e) && e.getId() != null)
                     .toList();
 
             // new labels that need to create
@@ -76,7 +91,7 @@ public class DoTaskService implements CurdService<DoTask> {
                 task.getLabels().remove(label);
         }
 
-        return doTaskRepository.save(task);
+        return doTaskRepository.saveAndFlush(task);
     }
 
     @Override

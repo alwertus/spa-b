@@ -1,6 +1,7 @@
 package com.tretsoft.spa.web.controller;
 
 import com.tretsoft.spa.service.CurdService;
+import com.tretsoft.spa.service.auth.AuthenticationService;
 import com.tretsoft.spa.web.mapper.BaseMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,24 +14,33 @@ import java.util.List;
 public abstract class CrudController<POJO, DTO> extends ExceptionHandlerController {
     final CurdService<POJO> service;
     final BaseMapper<POJO, DTO> mapper;
+    final AuthenticationService authenticationService;
+
+    private void logInfo(String message) {
+        log.info("[" + authenticationService.getCurrentUser().getLogin() + "]: " + message);
+    }
 
     @GetMapping
     public List<DTO> getAll() {
+        logInfo("GetAll");
         return mapper.sourcesToDtos(service.getAll());
     }
 
     @PostMapping
     public DTO create(@RequestBody DTO dto) {
+        logInfo("Create dto=" + dto);
         return mapper.sourceToDto(service.create(mapper.dtoToSource(dto)));
     }
 
     @PutMapping
     public DTO update(@RequestBody DTO dto) {
+        logInfo("Update dto=" + dto);
         return mapper.sourceToDto(service.update(mapper.dtoToSource(dto)));
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
+        logInfo("Delete id=" + id);
         service.delete(id);
     }
 

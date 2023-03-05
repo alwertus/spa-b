@@ -25,7 +25,7 @@ public class DoTask {
     private String name;
 
     @Column
-    private Calendar start_date;
+    private Calendar startDate;
 
     @Column(columnDefinition = "boolean default true")
     private Boolean checked;
@@ -43,4 +43,13 @@ public class DoTask {
     @JoinColumn(name = "user_id", nullable = false)
     private SpaUser user;
 
+    @Override
+    public String toString() {
+        return "DoTask{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startDate=" + (startDate == null ? "null" : startDate.getTimeInMillis()) +
+                ", checked=" + checked +
+                '}';
+    }
 }
