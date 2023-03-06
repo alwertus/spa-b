@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("doings-task")
+@RequestMapping("/doings-task")
 public class DoTaskController extends CrudController<DoTask, DoTaskDto> {
 
     public DoTaskController(DoTaskService service, DoTaskMapper mapper, AuthenticationService authenticationService) {

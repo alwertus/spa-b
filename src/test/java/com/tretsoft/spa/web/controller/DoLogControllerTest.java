@@ -12,7 +12,9 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -24,7 +26,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Sql({"classpath:data/sql/user.sql", "classpath:data/sql/insert-doings.sql"})
 class DoLogControllerTest extends BaseIntegrationTest {
 
-    private final String TASK_URL = "/doings-task";
+    private final SimpleDateFormat sdf;
+    {
+        sdf = new SimpleDateFormat("yyyy-M-dd hh:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
 
     @Autowired
     public DoLogControllerTest(MockMvc mockMvc) {
@@ -47,6 +53,7 @@ class DoLogControllerTest extends BaseIntegrationTest {
     @Test
     public void create() throws Exception {
         String token = getTokenByUser("user2");
+        String TASK_URL = "/doings-task";
 
         // make sure user2 hasn't logs
         mockMvc.perform(get(URL)
@@ -104,9 +111,25 @@ class DoLogControllerTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("$.length()").value(2));
     }
 
-    @Test
-    public void getReport_daily() {
 
+    private void getReportForPeriod_ExpectRecordCount(String sStart, String sEnd, int expectRecords) throws Exception {
+
+        mockMvc.perform(get(URL + "/period")
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForReport"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("start", String.valueOf(sdf.parse(sStart).getTime()))
+                        .param("end", String.valueOf(sdf.parse(sEnd).getTime()))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(expectRecords));
+    }
+    @Test
+    public void getReportByMonth() throws Exception {
+        getReportForPeriod_ExpectRecordCount("2023-01-01 00:00:00", "2023-02-01 00:00:00", 30);
+    }
+    @Test
+    public void getReportByDay() throws Exception {
+        getReportForPeriod_ExpectRecordCount("2023-01-01 00:00:00", "2023-01-02 00:00:00", 6);
     }
 
 }

@@ -51,7 +51,7 @@ values (timestamp '2023-01-01 01:00', timestamp '2023-01-01 03:00', (select id f
        (timestamp '2023-01-01 03:15', timestamp '2023-01-01 05:00', (select id from do_task_list where name='Work' and user_id = ((select id from spa_user where login = 'user1'))));
 
 -- log for report
-/*insert into do_log (start_date, end_date, task_id)
+insert into do_log (start_date, end_date, task_id)
 values (timestamp '2023-01-01 10:00', timestamp '2023-01-01 19:00', 1100), -- work
        (timestamp '2023-01-02 10:00', timestamp '2023-01-02 19:00', 1100),
        (timestamp '2023-01-03 10:00', timestamp '2023-01-03 19:00', 1100),
@@ -82,4 +82,4 @@ values (timestamp '2023-01-01 10:00', timestamp '2023-01-01 19:00', 1100), -- wo
        (timestamp '2023-01-03 21:00', timestamp '2023-01-03 23:00', 1104),
        (timestamp '2023-01-04 21:00', timestamp '2023-01-04 23:00', 1104),
        (timestamp '2023-01-05 21:00', timestamp '2023-01-05 23:00', 1104)
-;*/
+;

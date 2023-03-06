@@ -17,7 +17,7 @@ public interface DoLogRepository extends JpaRepository<DoLog, Long> {
         select l
         from DoLog l
         join DoTask t on t.id = l.task.id
-        where t.user = :user and l.startDate >= :startDate and l.endDate <= :endDate
+        where t.user = :user and l.startDate >= :startDate and l.startDate <= :endDate
     """)
     List<DoLog> findByUserAndIntervalBetween(@Param("user") SpaUser user,
                                                 @Param("startDate") Calendar startDate,

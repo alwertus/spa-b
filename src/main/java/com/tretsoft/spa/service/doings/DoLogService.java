@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Log4j2
@@ -24,8 +25,8 @@ public class DoLogService implements CurdService<DoLog> {
         return doLogRepository.findAllByUser(authenticationService.getCurrentUser());
     }
 
-    public List<DoLog> getAllByInterval() {
-        throw new MethodNotSupportedException();
+    public List<DoLog> getAllByInterval(Calendar startDate, Calendar endDate) {
+        return doLogRepository.findByUserAndIntervalBetween(authenticationService.getCurrentUser(), startDate, endDate);
     }
 
     @Override

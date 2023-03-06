@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("doings-label")
+@RequestMapping("/doings-label")
 public class DoLabelController extends CrudController<DoLabel, DoLabelDto> {
 
 

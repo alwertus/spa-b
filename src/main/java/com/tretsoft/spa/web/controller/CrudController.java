@@ -16,7 +16,7 @@ public abstract class CrudController<POJO, DTO> extends ExceptionHandlerControll
     final BaseMapper<POJO, DTO> mapper;
     final AuthenticationService authenticationService;
 
-    private void logInfo(String message) {
+    protected void logInfo(String message) {
         log.info("[" + authenticationService.getCurrentUser().getLogin() + "]: " + message);
     }
 
