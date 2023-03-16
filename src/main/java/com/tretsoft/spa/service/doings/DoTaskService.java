@@ -12,6 +12,7 @@ import com.tretsoft.spa.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.List;
@@ -43,7 +44,6 @@ public class DoTaskService implements CurdService<DoTask> {
         }
 
         // if task was active and now inactive -> create log record
-//        log.info("\nOld task = {}\nNew task = {}", task, obj);
         if (obj.getStartDate() == null && task.getStartDate() != null) {
             doLogService.create(DoLog
                     .builder()
@@ -54,6 +54,7 @@ public class DoTaskService implements CurdService<DoTask> {
         }
 
         task.setChecked(obj.getChecked());
+        // TODO: if set checked = false - set startDate = null
         task.setName(obj.getName());
         task.setStartDate(obj.getStartDate());
         final List<DoLabel> LABELS = task.getLabels();
@@ -128,6 +129,7 @@ public class DoTaskService implements CurdService<DoTask> {
         return doTaskRepository.save(obj);
     }
 
+    @Transactional
     @Override
     public void delete(Long id) {
         DoTask task = doTaskRepository
@@ -137,8 +139,7 @@ public class DoTaskService implements CurdService<DoTask> {
         if (!task.getUser().equals(authenticationService.getCurrentUser()))
             throw new ForbiddenException("Task id=" + id);
 
-        // TODO: delete all logs and other info before
-
+        doLogService.deleteAllByTask(task);
         doTaskRepository.delete(task);
     }
 }

@@ -2,6 +2,7 @@ package com.tretsoft.spa.service.doings;
 
 import com.tretsoft.spa.exception.MethodNotSupportedException;
 import com.tretsoft.spa.model.doings.DoLog;
+import com.tretsoft.spa.model.doings.DoTask;
 import com.tretsoft.spa.repository.DoLogRepository;
 import com.tretsoft.spa.service.CurdService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
@@ -43,5 +44,9 @@ public class DoLogService implements CurdService<DoLog> {
     @Override
     public void delete(Long id) {
         throw new MethodNotSupportedException();
+    }
+
+    public void deleteAllByTask(DoTask task) {
+        doLogRepository.deleteAllByTask(task);
     }
 }

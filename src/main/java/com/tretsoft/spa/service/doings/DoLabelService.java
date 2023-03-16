@@ -2,7 +2,6 @@ package com.tretsoft.spa.service.doings;
 
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.ForbiddenException;
-import com.tretsoft.spa.exception.MethodNotSupportedException;
 import com.tretsoft.spa.exception.NullAttributeException;
 import com.tretsoft.spa.model.doings.DoLabel;
 import com.tretsoft.spa.repository.DoLabelRepository;
@@ -27,9 +26,15 @@ public class DoLabelService implements CurdService<DoLabel> {
         return doLabelRepository.findAllByUser(authenticationService.getCurrentUser());
     }
 
-    private void checkAccess(DoLabel label) {
+    private DoLabel findAndCheckAccess(Long id) {
+        DoLabel label = doLabelRepository
+                .findById(id)
+                .orElseThrow(() -> new BadRequestException("Label id=" + id + " not found"));
+
         if (!label.getUser().equals(authenticationService.getCurrentUser()))
             throw new ForbiddenException("Label id=" + label.getId());
+
+        return label;
     }
 
     @Override
@@ -44,11 +49,7 @@ public class DoLabelService implements CurdService<DoLabel> {
             throw new NullAttributeException("id");
         }
 
-        DoLabel label = doLabelRepository
-                .findById(obj.getId())
-                .orElseThrow(() -> new BadRequestException("Label id=" + obj.getId() + " not found"));
-
-        checkAccess(label);
+        DoLabel label = findAndCheckAccess(obj.getId());
 
         if (obj.getName() != null)
             label.setName(obj.getName());
@@ -60,6 +61,7 @@ public class DoLabelService implements CurdService<DoLabel> {
 
     @Override
     public void delete(Long id) {
-        throw new MethodNotSupportedException();
+        DoLabel label = findAndCheckAccess(id);
+        doLabelRepository.delete(label);
     }
 }

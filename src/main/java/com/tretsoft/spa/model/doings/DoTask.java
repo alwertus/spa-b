@@ -31,13 +31,14 @@ public class DoTask {
     private Boolean checked;
 
     @ManyToMany
+//    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
             name = "do_task_label",
             joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "label_id"),
             uniqueConstraints = {@UniqueConstraint(columnNames = {"task_id", "label_id"})}
     )
-    List<DoLabel> labels;
+    private List<DoLabel> labels;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id", nullable = false)

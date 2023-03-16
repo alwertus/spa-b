@@ -11,4 +11,5 @@ import java.util.List;
 public interface DoLabelRepository extends JpaRepository<DoLabel, Long> {
 
     List<DoLabel> findAllByUser(SpaUser user);
+
 }

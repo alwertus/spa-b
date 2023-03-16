@@ -2,6 +2,7 @@ package com.tretsoft.spa.repository;
 
 import com.tretsoft.spa.model.SpaUser;
 import com.tretsoft.spa.model.doings.DoLog;
+import com.tretsoft.spa.model.doings.DoTask;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,5 +33,6 @@ public interface DoLogRepository extends JpaRepository<DoLog, Long> {
     """)
     List<DoLog> findAllByUser(@Param("user") SpaUser user);
 
+    void deleteAllByTask(DoTask task);
 
 }

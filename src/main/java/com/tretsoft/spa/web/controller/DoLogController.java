@@ -27,6 +27,11 @@ public class DoLogController extends CrudController<DoLog, DoLogDto> {
         logInfo(String.format("GetByPeriod {%s, %s}", start, end));
 
         DoLogService doLogService = (DoLogService) service;
+
+        if (start == 0 || end == 0) {
+            return getAll();
+        }
+
         Calendar startDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         startDate.setTimeInMillis(start);
         Calendar endDate = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
