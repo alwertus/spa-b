@@ -33,8 +33,6 @@ public class UpdateDatabaseService {
                 .findByAttribute(ATTR_VERSION)
                 .orElse(AppConfig.builder().attribute(ATTR_VERSION).value(null).build());
 
-        attrVersion.setValue(null);
-
         log.info("DB Schema version: " + attrVersion.getValue());
 
         List<UpdateHandler> handlers = getVersionHandlers();
