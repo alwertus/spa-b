@@ -2,7 +2,7 @@ package com.tretsoft.spa.service.update.handler;
 
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class HandlerVersion0 extends UpdateHandler {
 
     public HandlerVersion0() {
@@ -11,7 +11,6 @@ public class HandlerVersion0 extends UpdateHandler {
 
     @Override
     public void run() {
-
     }
 
 }

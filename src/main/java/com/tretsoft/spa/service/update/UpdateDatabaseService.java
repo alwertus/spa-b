@@ -6,6 +6,7 @@ import com.tretsoft.spa.service.update.handler.UpdateHandler;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,8 @@ public class UpdateDatabaseService {
                 .findByAttribute(ATTR_VERSION)
                 .orElse(AppConfig.builder().attribute(ATTR_VERSION).value(null).build());
 
+        attrVersion.setValue(null);
+
         log.info("DB Schema version: " + attrVersion.getValue());
 
         List<UpdateHandler> handlers = getVersionHandlers();
@@ -48,7 +51,8 @@ public class UpdateDatabaseService {
         } catch (NotFoundException ex) {
             log.info("DB schema version has actual version: " + attrVersion.getValue());
         } catch (Exception ex) {
-            log.error("Error while update database from version: " + attrVersion.getAttribute(), ex);
+            log.error("Error while update database from version: " + attrVersion.getValue(), ex);
+            SpringApplication.exit(applicationContext);
         }
 
     }
