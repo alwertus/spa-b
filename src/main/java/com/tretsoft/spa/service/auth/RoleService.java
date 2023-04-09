@@ -31,8 +31,8 @@ public class RoleService {
                 .name(name)
                 .isDefault(isDefault)
                 .build();
-
-        return roleRepository.save(newRole);
+        return roleRepository.findByName(name)
+                .orElse(roleRepository.save(newRole));
     }
 
     public long getRecordsCount() {

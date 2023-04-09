@@ -21,6 +21,8 @@ public class CashWalletService implements CurdService<CashWallet> {
 
     @Override
     public CashWallet create(CashWallet obj) {
+        if (obj.getHidden() == null)
+            obj.setHidden(false);
         return cashWalletRepository.save(obj);
     }
 

@@ -103,6 +103,9 @@ public class UserService {
     }
 
     public void addRoleToUser(SpaUser user, SpaRole role) {
+        if (user.getRoles().contains(role)) {
+            return;
+        }
         user.getRoles().add(role);
         userRepository.save(user);
     }

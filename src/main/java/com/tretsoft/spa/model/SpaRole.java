@@ -27,4 +27,19 @@ public class SpaRole {
 
     @Column
     private Boolean isDefault;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SpaRole spaRole = (SpaRole) o;
+
+        return name.equals(spaRole.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

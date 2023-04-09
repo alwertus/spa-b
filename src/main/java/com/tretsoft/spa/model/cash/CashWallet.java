@@ -27,6 +27,7 @@ public class CashWallet {
 
     private String name;
 
+    @Column(columnDefinition = "boolean default false not null")
     private Boolean hidden;
 
 }

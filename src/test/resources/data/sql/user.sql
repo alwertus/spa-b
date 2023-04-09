@@ -15,7 +15,8 @@ INSERT INTO spa_role (id, created, is_default, name) VALUES (1, now(), false, 'O
                                                             (4, now(), true, 'PAGE_INFO'),
                                                             (5, now(), false, 'PAGE_PHONE'),
                                                             (6, now(), false, 'PAGE_FEEDING'),
-                                                            (7, now(), true, 'PAGE_DOINGS');
+                                                            (7, now(), true, 'PAGE_DOINGS'),
+                                                            (8, now(), true, 'PAGE_CASH');
 
 INSERT INTO spa_user_roles (spa_user_id, roles_id)
     select u.id, r.id
