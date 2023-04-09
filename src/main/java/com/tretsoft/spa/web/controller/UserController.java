@@ -14,8 +14,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Log4j2
 @RestController
 @RequestMapping("/user")
@@ -68,10 +66,10 @@ public class UserController extends ExceptionHandlerController {
 
     }
 
-    @Operation(summary = "Get user list")
+    /*@Operation(summary = "Get user list")
     @GetMapping
     public List<String> getUserList() {
         return userService.getAllUsers();
-    }
+    }*/
 
 }

@@ -44,6 +44,7 @@ public class SecurityConfiguration {
                                 "/doings-label", "/doings-label/*",
                                 "/doings-log", "/doings-log/*"
                                 ).hasAnyAuthority("PAGE_DOINGS")
+                        .requestMatchers("/cash-wallet", "/cash-wallet/*").hasAnyAuthority("PAGE_CASH")
 
                         .anyRequest().authenticated()
                 ).build();
