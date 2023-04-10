@@ -17,11 +17,11 @@ public class CashWallet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne
     private SpaUser user;
 
-    @JoinColumn(name = "currency_id")
+    @JoinColumn(name = "currency_id", nullable = false)
     @ManyToOne(cascade = CascadeType.DETACH)
     private Currency currency;
 

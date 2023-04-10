@@ -1,9 +1,13 @@
 package com.tretsoft.spa.service.update.handler;
 
 import com.tretsoft.spa.model.SpaRole;
+import com.tretsoft.spa.model.cash.Currency;
+import com.tretsoft.spa.repository.CurrencyRepository;
 import com.tretsoft.spa.service.auth.RoleService;
 import com.tretsoft.spa.service.auth.UserService;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class HandlerVersion0 extends UpdateHandler {
@@ -12,15 +16,24 @@ public class HandlerVersion0 extends UpdateHandler {
 
     private final UserService userService;
 
-    public HandlerVersion0(RoleService roleService, UserService userService) {
+    private final CurrencyRepository currencyRepository;
+
+    public HandlerVersion0(RoleService roleService, UserService userService, CurrencyRepository currencyRepository) {
         super(null, "1");
         this.roleService = roleService;
         this.userService = userService;
+        this.currencyRepository = currencyRepository;
     }
 
     @Override
     public void run() {
         SpaRole newRole = roleService.createRole("PAGE_CASH", true);
+
+        currencyRepository.saveAll(List.of(
+                Currency.builder().name("USD").build(),
+                Currency.builder().name("RUB").build(),
+                Currency.builder().name("KGS").build()
+        ));
 
         userService.getAllUsers()
                 .forEach(user -> userService.addRoleToUser(user, newRole));

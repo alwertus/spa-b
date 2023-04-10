@@ -1,5 +1,6 @@
 package com.tretsoft.spa.service.doings;
 
+import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.MethodNotSupportedException;
 import com.tretsoft.spa.model.doings.DoLog;
 import com.tretsoft.spa.model.doings.DoTask;
@@ -24,6 +25,11 @@ public class DoLogService implements CurdService<DoLog> {
     @Override
     public List<DoLog> getAll() {
         return doLogRepository.findAllByUser(authenticationService.getCurrentUser());
+    }
+
+    @Override
+    public DoLog getById(Long id) {
+        return doLogRepository.findById(id).orElseThrow(() -> new BadRequestException("Id: " + id + " not found"));
     }
 
     public List<DoLog> getAllByInterval(Calendar startDate, Calendar endDate) {

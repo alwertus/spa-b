@@ -26,6 +26,11 @@ public class DoLabelService implements CurdService<DoLabel> {
         return doLabelRepository.findAllByUser(authenticationService.getCurrentUser());
     }
 
+    @Override
+    public DoLabel getById(Long id) {
+        return doLabelRepository.findById(id).orElseThrow(() -> new BadRequestException("Id: " + id + " not found"));
+    }
+
     private DoLabel findAndCheckAccess(Long id) {
         DoLabel label = doLabelRepository
                 .findById(id)

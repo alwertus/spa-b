@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -25,14 +26,21 @@ public class RoleService {
     }
 
     public SpaRole createRole(String name, boolean isDefault) {
-        log.info("Create " + (isDefault ? "default " : "") + "role: " + name);
+        Optional<SpaRole> role = roleRepository.findByName(name);
+
+        if (role.isPresent()) {
+            log.warn("Role " + name + " already exists");
+            return role.get();
+        } else {
+            log.info("Create " + (isDefault ? "default " : "") + "role: " + name);
+        }
+
         SpaRole newRole = SpaRole.builder()
                 .created(Calendar.getInstance())
                 .name(name)
                 .isDefault(isDefault)
                 .build();
-        return roleRepository.findByName(name)
-                .orElse(roleRepository.save(newRole));
+        return roleRepository.save(newRole);
     }
 
     public long getRecordsCount() {

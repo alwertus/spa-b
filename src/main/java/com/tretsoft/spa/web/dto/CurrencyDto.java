@@ -11,14 +11,10 @@ import lombok.ToString;
 @Builder
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CashWalletDto {
+public class CurrencyDto {
 
     private Long id;
 
     private String name;
-
-    private CurrencyDto currency;
-
-    private Boolean hidden;
 
 }

@@ -20,6 +20,12 @@ public abstract class CrudController<POJO, DTO> extends ExceptionHandlerControll
         log.info("[" + authenticationService.getCurrentUser().getLogin() + "]: " + this.getClass().getSimpleName() + ". " + message);
     }
 
+    @GetMapping("/{id}")
+    public DTO getById(@PathVariable Long id) {
+        logInfo("Get by id=" + id);
+        return mapper.sourceToDto(service.getById(id));
+    }
+
     @GetMapping
     public List<DTO> getAll() {
         logInfo("GetAll");

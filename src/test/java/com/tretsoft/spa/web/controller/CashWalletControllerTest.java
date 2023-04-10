@@ -1,6 +1,7 @@
 package com.tretsoft.spa.web.controller;
 
 import com.tretsoft.spa.BaseIntegrationTest;
+import io.restassured.path.json.JsonPath;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -12,8 +13,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-@Sql({"classpath:data/sql/user.sql"})
+@Sql({"classpath:data/sql/user.sql","classpath:data/sql/insert-wallet.sql"})
 class CashWalletControllerTest extends BaseIntegrationTest {
 
     @Autowired
@@ -34,11 +36,11 @@ class CashWalletControllerTest extends BaseIntegrationTest {
         mockMvc.perform(post(URL)
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForCreate"))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"name\": \"USD\"}"))
+                        .content("{ \"name\": \"newUSD\", \"currency\": { \"name\": \"USD\"} }"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value("USD"))
-                .andExpect(jsonPath("hidden").value(false))
-        ;
+                .andExpect(jsonPath("name").value("newUSD"))
+                .andExpect(jsonPath("currency.name").value("USD"))
+                .andExpect(jsonPath("hidden").value(false));
     }
 
     @Test
@@ -46,11 +48,76 @@ class CashWalletControllerTest extends BaseIntegrationTest {
         mockMvc.perform(post(URL)
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForCreate"))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"name\": \"RUB\", \"hidden\": true}"))
+                        .content("{ \"name\": \"newRUB\", \"hidden\": true, \"currency\": { \"name\": \"RUB\"}}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("name").value("RUB"))
-                .andExpect(jsonPath("hidden").value(true))
-        ;
+                .andExpect(jsonPath("name").value("newRUB"))
+                .andExpect(jsonPath("currency.name").value("RUB"))
+                .andExpect(jsonPath("hidden").value(true));
+    }
+
+    @Test
+    void createWallet_getWithWrongUser_noAccess() throws Exception {
+        MvcResult result = mockMvc.perform(post(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForCreate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"name\": \"test_access\", \"hidden\": true, \"currency\": { \"name\": \"RUB\"}}"))
+                .andExpect(status().isOk())
+                .andReturn();
+        long id = JsonPath
+                .from(result.getResponse().getContentAsString())
+                .getLong("id");
+
+        mockMvc.perform(get(URL + "/" + id)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("user1")))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getUserWallets() throws Exception {
+        mockMvc.perform(get(URL)
+                .header(HttpHeaders.AUTHORIZATION, getTokenByUser("user1")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+
+        mockMvc.perform(get(URL)
+                .header(HttpHeaders.AUTHORIZATION, getTokenByUser("user2")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(0));
+    }
+
+    @Test
+    void updateWalletSuccess() throws Exception {
+        mockMvc.perform(put(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("user1"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"id\": 1000, \"name\": \"WALLET111\", \"hidden\": true, \"currency\": { \"name\": \"KGS\"}}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name").value("WALLET111"))
+                .andExpect(jsonPath("currency.name").value("KGS"))
+                .andExpect(jsonPath("hidden").value(true));
+    }
+
+    @Test
+    void updateWalletForbidden() throws Exception {
+        mockMvc.perform(put(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("user2"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"id\": 1000, \"name\": \"WALLET111\", \"hidden\": true, \"currency\": { \"name\": \"KGS\"}}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void deleteSuccess() throws Exception {
+        mockMvc.perform(delete(URL + "/1002")
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForDel")))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteForbidden() throws Exception {
+        mockMvc.perform(delete(URL + "/1003")
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("user1")))
+                .andExpect(status().isBadRequest());
     }
 
 }

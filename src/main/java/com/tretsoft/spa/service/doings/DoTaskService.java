@@ -33,6 +33,11 @@ public class DoTaskService implements CurdService<DoTask> {
     }
 
     @Override
+    public DoTask getById(Long id) {
+        return doTaskRepository.findById(id).orElseThrow(() -> new BadRequestException("Id: " + id + " not found"));
+    }
+
+    @Override
     public DoTask update(DoTask obj) {
         SpaUser user = authenticationService.getCurrentUser();
         DoTask task = doTaskRepository
