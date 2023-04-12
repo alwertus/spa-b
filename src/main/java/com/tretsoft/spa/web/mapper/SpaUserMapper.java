@@ -26,7 +26,7 @@ public interface SpaUserMapper extends BaseMapper<SpaUser, SpaUserDto> {
         return c;
     }
 
-    default List<SpaRole> map(List<String> roleNames) {
+    default List<SpaRole> map(List<String> ignoredRoleNames) {
         return Collections.emptyList();
     }
 
