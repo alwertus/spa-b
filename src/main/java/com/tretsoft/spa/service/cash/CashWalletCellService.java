@@ -3,7 +3,6 @@ package com.tretsoft.spa.service.cash;
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.exception.MethodNotSupportedException;
-import com.tretsoft.spa.model.cash.CashWallet;
 import com.tretsoft.spa.model.cash.CashWalletCell;
 import com.tretsoft.spa.repository.CashWalletCellRepository;
 import com.tretsoft.spa.service.CurdService;
