@@ -4,7 +4,7 @@ import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.MethodNotSupportedException;
 import com.tretsoft.spa.model.doings.DoLog;
 import com.tretsoft.spa.model.doings.DoTask;
-import com.tretsoft.spa.repository.DoLogRepository;
+import com.tretsoft.spa.repository.doings.DoLogRepository;
 import com.tretsoft.spa.service.CurdService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;

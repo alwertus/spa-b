@@ -1,6 +1,6 @@
 package com.tretsoft.spa.old.feeding.model;
 
-import com.tretsoft.spa.model.SpaUser;
+import com.tretsoft.spa.model.user.SpaUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

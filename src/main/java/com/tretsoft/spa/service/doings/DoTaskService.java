@@ -2,11 +2,11 @@ package com.tretsoft.spa.service.doings;
 
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.ForbiddenException;
-import com.tretsoft.spa.model.SpaUser;
+import com.tretsoft.spa.model.user.SpaUser;
 import com.tretsoft.spa.model.doings.DoLabel;
 import com.tretsoft.spa.model.doings.DoLog;
 import com.tretsoft.spa.model.doings.DoTask;
-import com.tretsoft.spa.repository.DoTaskRepository;
+import com.tretsoft.spa.repository.doings.DoTaskRepository;
 import com.tretsoft.spa.service.CurdService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;

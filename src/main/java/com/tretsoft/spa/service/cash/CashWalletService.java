@@ -4,7 +4,7 @@ import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.model.cash.CashWallet;
 import com.tretsoft.spa.model.cash.Currency;
-import com.tretsoft.spa.repository.CashWalletRepository;
+import com.tretsoft.spa.repository.cash.CashWalletRepository;
 import com.tretsoft.spa.service.CurdService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.tretsoft.spa.model.doings;
 
 
-import com.tretsoft.spa.model.SpaUser;
+import com.tretsoft.spa.model.user.SpaUser;
 import jakarta.persistence.*;
 import lombok.*;
 

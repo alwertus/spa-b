@@ -1,7 +1,7 @@
 package com.tretsoft.spa.web.mapper;
 
-import com.tretsoft.spa.model.SpaRole;
-import com.tretsoft.spa.model.SpaUser;
+import com.tretsoft.spa.model.user.SpaRole;
+import com.tretsoft.spa.model.user.SpaUser;
 import com.tretsoft.spa.web.dto.SpaUserDto;
 import org.mapstruct.Mapper;
 

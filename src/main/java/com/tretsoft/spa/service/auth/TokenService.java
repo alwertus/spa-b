@@ -2,7 +2,7 @@ package com.tretsoft.spa.service.auth;
 
 import com.auth0.jwt.JWT;
 import com.tretsoft.spa.config.props.JwtProperties;
-import com.tretsoft.spa.model.SpaRole;
+import com.tretsoft.spa.model.user.SpaRole;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;

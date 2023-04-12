@@ -1,8 +1,8 @@
 package com.tretsoft.spa.service.update.handler;
 
-import com.tretsoft.spa.model.SpaRole;
+import com.tretsoft.spa.model.user.SpaRole;
 import com.tretsoft.spa.model.cash.Currency;
-import com.tretsoft.spa.repository.CurrencyRepository;
+import com.tretsoft.spa.repository.cash.CurrencyRepository;
 import com.tretsoft.spa.service.auth.RoleService;
 import com.tretsoft.spa.service.auth.UserService;
 import org.springframework.stereotype.Component;

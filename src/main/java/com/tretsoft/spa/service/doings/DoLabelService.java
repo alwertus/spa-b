@@ -4,7 +4,7 @@ import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.exception.NullAttributeException;
 import com.tretsoft.spa.model.doings.DoLabel;
-import com.tretsoft.spa.repository.DoLabelRepository;
+import com.tretsoft.spa.repository.doings.DoLabelRepository;
 import com.tretsoft.spa.service.CurdService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;

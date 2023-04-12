@@ -1,8 +1,8 @@
 package com.tretsoft.spa.service.auth;
 
-import com.tretsoft.spa.model.SpaRole;
-import com.tretsoft.spa.model.SpaUser;
-import com.tretsoft.spa.repository.RoleRepository;
+import com.tretsoft.spa.model.user.SpaRole;
+import com.tretsoft.spa.model.user.SpaUser;
+import com.tretsoft.spa.repository.user.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;

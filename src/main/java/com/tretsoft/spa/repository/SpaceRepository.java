@@ -1,6 +1,6 @@
 package com.tretsoft.spa.repository;
 
-import com.tretsoft.spa.model.SpaUser;
+import com.tretsoft.spa.model.user.SpaUser;
 import com.tretsoft.spa.model.info.Space;
 import org.springframework.data.jpa.repository.JpaRepository;
 

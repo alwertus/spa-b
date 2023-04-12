@@ -3,7 +3,7 @@ package com.tretsoft.spa.service.info;
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.exception.NullAttributeException;
-import com.tretsoft.spa.model.SpaUser;
+import com.tretsoft.spa.model.user.SpaUser;
 import com.tretsoft.spa.model.info.Space;
 import com.tretsoft.spa.model.info.SpaceDto;
 import com.tretsoft.spa.repository.SpaceRepository;

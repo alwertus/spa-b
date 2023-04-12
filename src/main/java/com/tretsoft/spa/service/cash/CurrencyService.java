@@ -2,7 +2,7 @@ package com.tretsoft.spa.service.cash;
 
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.model.cash.Currency;
-import com.tretsoft.spa.repository.CurrencyRepository;
+import com.tretsoft.spa.repository.cash.CurrencyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

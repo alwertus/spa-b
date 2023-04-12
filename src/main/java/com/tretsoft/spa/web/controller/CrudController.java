@@ -12,9 +12,9 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 public abstract class CrudController<POJO, DTO> extends ExceptionHandlerController {
-    final CurdService<POJO> service;
-    final BaseMapper<POJO, DTO> mapper;
-    final AuthenticationService authenticationService;
+    public final CurdService<POJO> service;
+    public final BaseMapper<POJO, DTO> mapper;
+    public final AuthenticationService authenticationService;
 
     protected void logInfo(String message) {
         log.info("[" + authenticationService.getCurrentUser().getLogin() + "]: " + this.getClass().getSimpleName() + ". " + message);
