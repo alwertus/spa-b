@@ -4,6 +4,8 @@ import com.tretsoft.spa.model.SpaUser;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -24,6 +26,9 @@ public class CashWallet {
     @JoinColumn(name = "currency_id", nullable = false)
     @ManyToOne(cascade = CascadeType.DETACH)
     private Currency currency;
+
+    @OneToMany(mappedBy = "wallet", cascade= CascadeType.ALL)
+    private List<CashWalletCell> cells;
 
     private String name;
 

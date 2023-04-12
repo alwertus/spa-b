@@ -2,14 +2,14 @@ package com.tretsoft.spa.web.mapper;
 
 import java.util.List;
 
-public interface BaseMapper<SOURCE, DESTINATION> {
+public interface BaseMapper<SOURCE, DTO> {
 
-    DESTINATION sourceToDto(SOURCE source);
+    DTO sourceToDto(SOURCE source);
 
-    SOURCE dtoToSource(DESTINATION dto);
+    SOURCE dtoToSource(DTO dto);
 
-    List<DESTINATION> sourcesToDtos(List<SOURCE> sources);
+    List<DTO> sourcesToDtos(List<SOURCE> sources);
 
-    List<SOURCE> dtosToSources(List<DESTINATION> sources);
+    List<SOURCE> dtosToSources(List<DTO> sources);
 
 }

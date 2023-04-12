@@ -56,7 +56,7 @@ class CashWalletControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    void createWallet_getWithWrongUser_noAccess() throws Exception {
+    void createWallet_thanGetWithWrongUser_noAccess() throws Exception {
         MvcResult result = mockMvc.perform(post(URL)
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForCreate"))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -118,6 +118,15 @@ class CashWalletControllerTest extends BaseIntegrationTest {
         mockMvc.perform(delete(URL + "/1003")
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUser("user1")))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getValletCells() throws Exception {
+        mockMvc.perform(get(URL + "/1000")
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("user1")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$['cells']").exists())
+                .andExpect(jsonPath("$['cells'].length()").value(3));
     }
 
 }

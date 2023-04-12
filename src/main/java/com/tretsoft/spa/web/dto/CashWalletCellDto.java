@@ -6,23 +6,23 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CashWalletDto {
+public class CashWalletCellDto {
 
     private Long id;
 
-    private String name;
+    private Long walletId;
 
-    private CurrencyDto currency;
+    private String name;
 
     private Boolean hidden;
 
-    List<CashWalletCellDto> cells;
+    private String icon;
+
+    private String notes;
 
 }
