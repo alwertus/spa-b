@@ -5,7 +5,7 @@ import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.exception.MethodNotSupportedException;
 import com.tretsoft.spa.model.cash.CashWalletCell;
 import com.tretsoft.spa.repository.cash.CashWalletCellRepository;
-import com.tretsoft.spa.service.CurdService;
+import com.tretsoft.spa.service.CrudService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class CashWalletCellService implements CurdService<CashWalletCell> {
+public class CashWalletCellService implements CrudService<CashWalletCell> {
 
     private final CashWalletCellRepository cashWalletCellRepository;
 

@@ -1,5 +1,6 @@
 package com.tretsoft.spa.model.cash;
 
+import com.tretsoft.spa.model.user.SpaUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class CashProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     private Integer grade;
@@ -27,5 +29,9 @@ public class CashProduct {
     @JoinColumn(name = "default_wallet_cell_dst_id")
     @ManyToOne(cascade = CascadeType.DETACH)
     private CashWalletCell defaultCashWalletCellDestination;
+
+    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    private SpaUser user;
 
 }

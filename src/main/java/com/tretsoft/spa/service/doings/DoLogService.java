@@ -5,7 +5,7 @@ import com.tretsoft.spa.exception.MethodNotSupportedException;
 import com.tretsoft.spa.model.doings.DoLog;
 import com.tretsoft.spa.model.doings.DoTask;
 import com.tretsoft.spa.repository.doings.DoLogRepository;
-import com.tretsoft.spa.service.CurdService;
+import com.tretsoft.spa.service.CrudService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,7 +17,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @Service
-public class DoLogService implements CurdService<DoLog> {
+public class DoLogService implements CrudService<DoLog> {
 
     private final DoLogRepository doLogRepository;
     private final AuthenticationService authenticationService;

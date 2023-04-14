@@ -5,7 +5,7 @@ import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.exception.NullAttributeException;
 import com.tretsoft.spa.model.doings.DoLabel;
 import com.tretsoft.spa.repository.doings.DoLabelRepository;
-import com.tretsoft.spa.service.CurdService;
+import com.tretsoft.spa.service.CrudService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,7 +16,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @Service
-public class DoLabelService implements CurdService<DoLabel> {
+public class DoLabelService implements CrudService<DoLabel> {
 
     private final DoLabelRepository doLabelRepository;
     private final AuthenticationService authenticationService;

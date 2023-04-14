@@ -1,6 +1,6 @@
 package com.tretsoft.spa.web.controller;
 
-import com.tretsoft.spa.service.CurdService;
+import com.tretsoft.spa.service.CrudService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import com.tretsoft.spa.web.mapper.BaseMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 public abstract class CrudController<POJO, DTO> extends ExceptionHandlerController {
-    public final CurdService<POJO> service;
+    public final CrudService<POJO> service;
     public final BaseMapper<POJO, DTO> mapper;
     public final AuthenticationService authenticationService;
 
@@ -48,6 +48,14 @@ public abstract class CrudController<POJO, DTO> extends ExceptionHandlerControll
     public void delete(@PathVariable Long id) {
         logInfo("Delete id=" + id);
         service.delete(id);
+    }
+
+    public String getUrl() {
+        RequestMapping requestMapping = this.getClass().getAnnotation(RequestMapping.class);
+        if (requestMapping != null && requestMapping.value().length > 0) {
+            return requestMapping.value()[0];
+        }
+        return "";
     }
 
 }

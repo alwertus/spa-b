@@ -7,7 +7,7 @@ import com.tretsoft.spa.model.doings.DoLabel;
 import com.tretsoft.spa.model.doings.DoLog;
 import com.tretsoft.spa.model.doings.DoTask;
 import com.tretsoft.spa.repository.doings.DoTaskRepository;
-import com.tretsoft.spa.service.CurdService;
+import com.tretsoft.spa.service.CrudService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,7 +20,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @Service
-public class DoTaskService implements CurdService<DoTask> {
+public class DoTaskService implements CrudService<DoTask> {
 
     private final DoTaskRepository doTaskRepository;
     private final AuthenticationService authenticationService;
