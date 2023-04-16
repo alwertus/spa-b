@@ -28,4 +28,5 @@ values (1000, 5, 'product1', 1001, null, (select id from spa_user where login = 
        (1001, 4, 'product2', null, 1000, (select id from spa_user where login = 'user1')),
        (1002, 0, 'update product 1', null, null, (select id from spa_user where login = 'userForUpdate')),
        (1003, 0, 'del1', null, null, (select id from spa_user where login = 'userForDel')),
-       (1004, 0, 'del2', null, null, (select id from spa_user where login = 'userForDel'));
+       (1004, 0, 'del2', null, null, (select id from spa_user where login = 'userForDel')),
+       (1005, 0, 'product-operation 1', null, null, (select id from spa_user where login = 'userForCreate'));

@@ -18,11 +18,11 @@ public class CashOperation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "default_wallet_cell_src_id")
+    @JoinColumn(name = "wallet_cell_src_id")
     @ManyToOne(cascade = CascadeType.DETACH)
     private CashWalletCell walletCellSource;
 
-    @JoinColumn(name = "default_wallet_cell_dst_id")
+    @JoinColumn(name = "wallet_cell_dst_id")
     @ManyToOne(cascade = CascadeType.DETACH)
     private CashWalletCell walletCellDestination;
 
@@ -34,6 +34,7 @@ public class CashOperation {
 
     private Calendar completeDate;
 
+    @Column(nullable = false)
     private Float sum;
 
     private Float rate;
@@ -44,6 +45,6 @@ public class CashOperation {
 
     private String notes;
 
-    private Boolean is_autofill;
+    private Boolean isAutofill;
 
 }
