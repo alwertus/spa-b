@@ -6,11 +6,17 @@ import com.tretsoft.spa.repository.cash.CurrencyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class CurrencyService {
 
     private final CurrencyRepository currencyRepository;
+
+    public List<Currency> getAll() {
+        return currencyRepository.findAll();
+    }
 
     public Currency getByName(String currencyName) {
         return currencyRepository
