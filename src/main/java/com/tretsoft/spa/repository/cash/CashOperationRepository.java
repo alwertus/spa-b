@@ -1,7 +1,10 @@
 package com.tretsoft.spa.repository.cash;
 
 import com.tretsoft.spa.model.cash.CashOperation;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CashOperationRepository extends CrudRepository<CashOperation, Long> {
+public interface CashOperationRepository extends JpaRepository<CashOperation, Long> {
+
+
+
 }

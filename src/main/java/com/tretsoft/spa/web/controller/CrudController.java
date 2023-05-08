@@ -1,5 +1,6 @@
 package com.tretsoft.spa.web.controller;
 
+import com.tretsoft.spa.exception.MethodNotSupportedException;
 import com.tretsoft.spa.service.CrudService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import com.tretsoft.spa.web.mapper.BaseMapper;
@@ -23,25 +24,41 @@ public abstract class CrudController<POJO, DTO> extends ExceptionHandlerControll
     @GetMapping("/{id}")
     public DTO getById(@PathVariable Long id) {
         logInfo("Get by id=" + id);
-        return mapper.sourceToDto(service.getById(id));
+        DTO result = mapper.sourceToDto(service.getById(id));
+        if (result == null) {
+            throw new MethodNotSupportedException();
+        }
+        return result;
     }
 
     @GetMapping
     public List<DTO> getAll() {
         logInfo("GetAll");
-        return mapper.sourcesToDtos(service.getAll());
+        List<DTO> result = mapper.sourcesToDtos(service.getAll());
+        if (result == null) {
+            throw new MethodNotSupportedException();
+        }
+        return result;
     }
 
     @PostMapping
     public DTO create(@RequestBody DTO dto) {
         logInfo("Create dto=" + dto);
-        return mapper.sourceToDto(service.create(mapper.dtoToSource(dto)));
+        DTO result = mapper.sourceToDto(service.create(mapper.dtoToSource(dto)));
+        if (result == null) {
+            throw new MethodNotSupportedException();
+        }
+        return result;
     }
 
     @PutMapping
     public DTO update(@RequestBody DTO dto) {
         logInfo("Update dto=" + dto);
-        return mapper.sourceToDto(service.update(mapper.dtoToSource(dto)));
+        DTO result = mapper.sourceToDto(service.update(mapper.dtoToSource(dto)));
+        if (result == null) {
+            throw new MethodNotSupportedException();
+        }
+        return result;
     }
 
     @DeleteMapping("/{id}")

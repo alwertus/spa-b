@@ -65,6 +65,35 @@ class CashOperationControllerTest extends BaseIntegrationTest {
     }
 
     @Test
+    public void create_withNewProduct_successAndCreateProduct() throws Exception {
+        mockMvc.perform(post(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForCreate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                { "walletCellSource": { "id": 1006 },
+                                "product": {"name":  "newProduct"},
+                                "sum": 50 }"""))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("sum").value(50));
+    }
+
+    @Test
+    public void create_withExistsProductByName_ignoreCamel_success() throws Exception {
+        mockMvc.perform(post(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForCreate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                { "walletCellSource": { "id": 1006 },
+                                "product": {"name":  "pRoducT-operAtioN 1"},
+                                "sum": 50 }"""))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("sum").value(50))
+                .andExpect(jsonPath("product.id").value(1005))
+                .andExpect(jsonPath("product.name").value("product-operation 1"))
+        ;
+    }
+
+    @Test
     public void create_noWallets_error() throws Exception {
         mockMvc.perform(post(URL)
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForCreate"))

@@ -1,5 +1,6 @@
 package com.tretsoft.spa.service.cash;
 
+import com.tretsoft.spa.exception.NotFoundException;
 import com.tretsoft.spa.exception.NullAttributeException;
 import com.tretsoft.spa.model.cash.CashOperation;
 import com.tretsoft.spa.repository.cash.CashOperationRepository;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -22,12 +24,28 @@ public class CashOperationService implements CrudService<CashOperation> {
 
     @Override
     public List<CashOperation> getAll() {
+        return cashOperationRepository.findAll();
+    }
+
+    public List<CashOperation> getAllByInterval(Calendar start, Calendar end) {
         return null;
     }
 
     @Override
     public CashOperation getById(Long id) {
         return null;
+    }
+
+    public float calcSum(String compositeSum) {
+        if (compositeSum == null)
+            return 0;
+
+        return (float) Arrays.stream(compositeSum
+                        .replaceAll("-", "+-")
+                        .split("\\+"))
+                .filter(o -> o != null && o.length() > 0)
+                .mapToDouble(Double::parseDouble)
+                .sum();
     }
 
     @Override
@@ -39,8 +57,10 @@ public class CashOperationService implements CrudService<CashOperation> {
         if (obj.getWalletCellDestination() != null) {
             obj.setWalletCellDestination(cashWalletCellService.getById(obj.getWalletCellDestination().getId()));
         }
+
+        // set product
         if (obj.getProduct() != null) {
-            obj.setProduct(cashProductService.getById(obj.getProduct().getId()));
+            obj.setProduct(cashProductService.findOrCreate(obj.getProduct()));
         }
 
         // not null
@@ -64,12 +84,7 @@ public class CashOperationService implements CrudService<CashOperation> {
 
         // calc composite sum
         if (obj.getCompositeSum() != null) {
-            obj.setSum((float) Arrays.stream(obj.getCompositeSum()
-                    .replaceAll("-", "+-")
-                    .split("\\+"))
-                    .filter(o -> o != null && o.length() > 0)
-                    .mapToDouble(Double::parseDouble)
-                    .sum());
+            obj.setSum(calcSum(obj.getCompositeSum()));
         }
 
         return cashOperationRepository.save(obj);
@@ -77,6 +92,10 @@ public class CashOperationService implements CrudService<CashOperation> {
 
     @Override
     public CashOperation update(CashOperation obj) {
+        CashOperation updated = cashOperationRepository
+                .findById(obj.getId())
+                .orElseThrow(() -> new NotFoundException("Operation id='" + obj.getId() + "'"));
+
         return null;
     }
 

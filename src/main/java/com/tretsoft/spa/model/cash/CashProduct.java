@@ -12,7 +12,7 @@ import lombok.*;
 @Entity
 @Table(name = "cash_product")
 public class CashProduct {
-
+// TODO: create unique index name+user
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

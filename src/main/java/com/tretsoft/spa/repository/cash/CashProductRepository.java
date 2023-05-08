@@ -10,4 +10,6 @@ public interface CashProductRepository extends JpaRepository<CashProduct, Long> 
 
     List<CashProduct> findByUser(SpaUser user);
 
+    List<CashProduct> findByNameIgnoreCaseAndUser(String name, SpaUser user);
+
 }
