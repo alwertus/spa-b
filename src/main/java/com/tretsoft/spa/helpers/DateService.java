@@ -1,4 +1,4 @@
-package com.tretsoft.spa.service.utility;
+package com.tretsoft.spa.helpers;
 
 import java.util.Calendar;
 import java.util.TimeZone;

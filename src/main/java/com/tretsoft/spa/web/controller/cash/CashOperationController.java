@@ -3,7 +3,7 @@ package com.tretsoft.spa.web.controller.cash;
 import com.tretsoft.spa.model.cash.CashOperation;
 import com.tretsoft.spa.service.auth.AuthenticationService;
 import com.tretsoft.spa.service.cash.CashOperationService;
-import com.tretsoft.spa.service.utility.DateService;
+import com.tretsoft.spa.helpers.DateService;
 import com.tretsoft.spa.web.controller.CrudController;
 import com.tretsoft.spa.web.dto.cash.CashOperationDto;
 import com.tretsoft.spa.web.mapper.cash.CashOperationMapper;

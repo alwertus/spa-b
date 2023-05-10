@@ -14,6 +14,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -158,16 +159,213 @@ class CashOperationControllerTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("isAutofill").value(false));
     }
 
+    @Test
+    public void update_productById_success() throws Exception {
+        mockMvc.perform(put(URL)
+                .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(""" 
+                    { "id": 1000,
+                    "walletCellDestination": { "id": 1003 },
+                    "product": { "id": 1006 },
+                    "sum": 100,
+                    "rate": 1,
+                    "transferFee": 0
+                    }
+                    """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("product.name").value("update product 2"));
+    }
+
+    @Test
+    public void update_productByName_success() throws Exception {
+        mockMvc.perform(put(URL)
+                .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(""" 
+                    { "id": 1000,
+                    "walletCellDestination": { "id": 1003 },
+                    "product": { "name":  "update product 3"},
+                    "sum": 100,
+                    "rate": 1,
+                    "transferFee": 0
+                    }
+                    """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("product.id").value(1007));
+    }
+
+    @Test
+    public void update_productByName_successAndProductCreated() throws Exception {
+        mockMvc.perform(put(URL)
+                .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(""" 
+                    { "id": 1000,
+                    "walletCellDestination": { "id": 1003 },
+                    "product": { "name":  "product1"},
+                    "sum": 100,
+                    "rate": 1,
+                    "transferFee": 0
+                    }
+                    """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("product.name").value("product1"));
+    }
+
+    @Test
+    public void update_sumRateFee_success() throws Exception {
+        mockMvc.perform(put(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                    { "id": 1000,
+                    "walletCellDestination": { "id": 1003 },
+                    "product": { "id":  1002},
+                    "sum": 111.1,
+                    "rate": 1.5,
+                    "transferFee": 50.8
+                    }
+                    """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("sum").value(111.1))
+                .andExpect(jsonPath("rate").value(1.5))
+                .andExpect(jsonPath("transferFee").value(50.8))
+                .andExpect(jsonPath("compositeSum").doesNotExist());
+    }
+
+    @Test
+    public void update_compositeSum_success() throws Exception {
+        mockMvc.perform(put(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                            { "id": 1000,
+                            "walletCellDestination": { "id": 1003 },
+                            "product": { "id":  1002},
+                            "rate": 1,
+                            "transferFee": 0,
+                            "compositeSum": "-100+200-50.5+15"
+                            }
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("sum").value(64.5))
+                .andExpect(jsonPath("rate").value(1))
+                .andExpect(jsonPath("transferFee").value(0))
+                .andExpect(jsonPath("compositeSum").value("-100+200-50.5+15"));
+    }
+
+    @Test
+    public void update_walletCellsIsEmpty_badRequest() throws Exception {
+        mockMvc.perform(put(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            { "id": 1000,
+                            "product": { "id":  1002},
+                            "sum": 100,
+                            "rate": 1,
+                            "transferFee": 0
+                            }
+                        """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void update_walletCellDestination_forbidden() throws Exception {
+        mockMvc.perform(put(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            { "id": 1000,
+                            "walletCellDestination": { "id": 1000 },
+                            "product": { "id":  1002},
+                            "sum": 100,
+                            "rate": 1,
+                            "transferFee": 0
+                            }
+                        """))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    public void update_walletCellSource_forbidden() throws Exception {
+        mockMvc.perform(put(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            { "id": 1000,
+                            "walletCellSource": { "id": 1000 },
+                            "product": { "id":  1002},
+                            "sum": 100,
+                            "rate": 1,
+                            "transferFee": 0
+                            }
+                        """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void update_walletCells_success() throws Exception {
+        mockMvc.perform(put(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            { "id": 1000,
+                            "walletCellDestination": { "id": 1008 },
+                            "walletCellSource": { "id": 1003 },
+                            "product": { "id":  1002},
+                            "sum": 100,
+                            "rate": 1,
+                            "transferFee": 0
+                            }
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("walletCellDestination.name").value("cellUpdate2"))
+                .andExpect(jsonPath("walletCellSource.name").value("cell4"));
+    }
+
+    @Test
+    public void update_walletCellsIsEquals_badRequest() throws Exception {
+        mockMvc.perform(put(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            { "id": 1000,
+                            "walletCellDestination": { "id": 1008 },
+                            "walletCellSource": { "id": 1008 },
+                            "product": { "id":  1002},
+                            "sum": 100,
+                            "rate": 1,
+                            "transferFee": 0
+                            }
+                        """))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    public void update_notes_success() throws Exception {
+        mockMvc.perform(put(URL)
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            { "id": 1000,
+                            "walletCellDestination": { "id": 1008 },
+                            "product": { "id":  1002},
+                            "sum": 100,
+                            "rate": 1,
+                            "transferFee": 0,
+                            "notes": "NOTE 111"
+                            }
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("notes").value("NOTE 111"));
+    }
 
 /*
 
     @Test
     public void read() throws Exception {
-
-    }
-
-    @Test
-    public void update() throws Exception {
 
     }
 
