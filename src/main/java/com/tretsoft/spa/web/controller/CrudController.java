@@ -3,6 +3,7 @@ package com.tretsoft.spa.web.controller;
 import com.tretsoft.spa.exception.MethodNotSupportedException;
 import com.tretsoft.spa.service.CrudService;
 import com.tretsoft.spa.service.auth.AuthenticationService;
+import com.tretsoft.spa.web.dto.ResponseDeleted;
 import com.tretsoft.spa.web.mapper.BaseMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -62,9 +63,10 @@ public abstract class CrudController<POJO, DTO> extends ExceptionHandlerControll
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseDeleted delete(@PathVariable Long id) {
         logInfo("Delete id=" + id);
         service.delete(id);
+        return new ResponseDeleted();
     }
 
     public String getUrl() {
