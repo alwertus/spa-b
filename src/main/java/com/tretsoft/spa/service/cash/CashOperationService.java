@@ -131,7 +131,10 @@ public class CashOperationService implements CrudService<CashOperation> {
         // check user access
         findWalletCellAndCheckAccess(obj);
 
-        ObjectOperations.copyNonNullFields(obj, updated, List.of("id", "product", "sum", "compositeSum"));
+        ObjectOperations.copyNonNullFields(obj, updated, List.of("id", "product", "sum", "compositeSum", "walletCellSource", "walletCellDestination"));
+
+        updated.setWalletCellSource(obj.getWalletCellSource());
+        updated.setWalletCellDestination(obj.getWalletCellDestination());
 
         // if sum changed and not null -> compositeSum=null
         if (obj.getSum() != null && !Objects.equals(obj.getSum(), updated.getSum())) {
@@ -151,6 +154,12 @@ public class CashOperationService implements CrudService<CashOperation> {
 
     @Override
     public void delete(Long id) {
+        CashOperation deleted = cashOperationRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Operation id='" + id + "'"));
 
+        findWalletCellAndCheckAccess(deleted);
+
+        cashOperationRepository.delete(deleted);
     }
 }
