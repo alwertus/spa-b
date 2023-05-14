@@ -26,7 +26,7 @@ public class CashOperation {
     @ManyToOne(cascade = CascadeType.DETACH)
     private CashWalletCell walletCellDestination;
 
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     @ManyToOne(cascade = CascadeType.DETACH)
     private CashProduct product;
 
