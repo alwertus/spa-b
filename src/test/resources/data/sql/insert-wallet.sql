@@ -35,4 +35,6 @@ values (1000, 5, 'product1', 1001, null, (select id from spa_user where login = 
        (1007, 0, 'update product 3', null, null, (select id from spa_user where login = 'userForUpdate'));
 
 insert into cash_operation (id, complete_date, composite_sum, created, is_autofill, notes, rate, sum, transfer_fee, product_id, wallet_cell_dst_id, wallet_cell_src_id)
-values (1000, null, null, now(), false, null, 1, 100, 0, 1002, 1003, null);
+values (1000, null, null, now(), false, null, 1, 100, 0, 1002, 1003, null),
+       (1001, null, null, now(), false, null, 1, 100, 0, 1003, 1005, null),
+       (1002, null, null, now(), false, null, 1, 100, 0, 1003, 1005, null);

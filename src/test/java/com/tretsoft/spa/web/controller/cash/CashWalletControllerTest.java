@@ -121,7 +121,7 @@ class CashWalletControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    void getValletCells() throws Exception {
+    void getWalletCells() throws Exception {
         mockMvc.perform(get(URL + "/1000")
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUser("user1")))
                 .andExpect(status().isOk())

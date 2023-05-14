@@ -13,8 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -362,15 +361,31 @@ class CashOperationControllerTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("notes").value("NOTE 111"));
     }
 
+    @Test
+    void delete_success() throws Exception {
+        String token = getTokenByUser("userForDel");
+
+        mockMvc.perform(delete(URL + "/1001")
+                        .header(HttpHeaders.AUTHORIZATION, token))
+                .andExpect(status().isOk());
+
+        //check
+        mockMvc.perform(get(URL + "/1001")
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void delete_forbidden() throws Exception {
+        mockMvc.perform(delete(URL + "/1002")
+                        .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForUpdate")))
+                .andExpect(status().isBadRequest());
+    }
 /*
 
     @Test
     public void read() throws Exception {
-
-    }
-
-    @Test
-    public void delete() throws Exception {
 
     }
 */
