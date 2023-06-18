@@ -1,4 +1,4 @@
-package com.tretsoft.spa.web.controller;
+package com.tretsoft.spa.web.controller.info;
 
 import com.tretsoft.spa.exception.BadRequestException;
 import com.tretsoft.spa.model.info.Page;
@@ -7,6 +7,7 @@ import com.tretsoft.spa.model.info.PageListItemDto;
 import com.tretsoft.spa.model.info.Space;
 import com.tretsoft.spa.service.info.PageService;
 import com.tretsoft.spa.service.info.SpaceService;
+import com.tretsoft.spa.web.controller.ExceptionHandlerController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;

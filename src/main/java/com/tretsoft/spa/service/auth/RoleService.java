@@ -17,6 +17,10 @@ import java.util.Optional;
 public class RoleService {
     private final RoleRepository roleRepository;
 
+    public List<SpaRole> getAll() {
+        return roleRepository.findAll();
+    }
+
     public void addDefaultRoles(SpaUser user) {
         List<SpaRole> newRoles = roleRepository.findByIsDefaultIsTrue();
         if (user.getRoles() != null)
