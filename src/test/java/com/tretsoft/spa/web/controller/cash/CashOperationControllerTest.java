@@ -53,14 +53,17 @@ class CashOperationControllerTest extends BaseIntegrationTest {
                 .andExpect(jsonPath("notes").value("note note"));
     }
 
-    //    TODO: REPEAR
-//    @Test
+    @Test
     public void create_withCompositeSum_success() throws Exception {
         mockMvc.perform(post(URL)
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForCreate"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                                { "walletCellSource": { "id": 1006 }, "compositeSum": "900+50+10+40+0.01" }"""))
+                                {
+                                "walletCellSource": { "id": 1006 },
+                                "product": { "id": 1005 },
+                                "compositeSum": "900+50+10+40+0.01"
+                                }"""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("sum").value(1000.01));
     }
@@ -144,14 +147,13 @@ class CashOperationControllerTest extends BaseIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
-    //    TODO: REPEAR
-//    @Test
+    @Test
     public void create_minimumAttributes_checkAutofill_success() throws Exception {
         mockMvc.perform(post(URL)
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForCreate"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
-                                { "walletCellSource": { "id": 1006 }, "sum": 100 }"""))
+                                { "walletCellSource": { "id": 1006 }, "product": { "id": 1005 }, "sum": 100 }"""))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("walletCellSource.id").value(1006))
                 .andExpect(jsonPath("sum").value(100))

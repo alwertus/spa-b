@@ -130,8 +130,7 @@ class CashProductControllerTest extends BaseIntegrationTest {
                 .andExpect(status().isBadRequest());
     }
 
-//    TODO: REPEAR
-//    @Test
+    @Test
     void delete_success() throws Exception {
         mockMvc.perform(delete(URL + "/1003")
                         .header(HttpHeaders.AUTHORIZATION, getTokenByUser("userForDel")))
