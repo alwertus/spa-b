@@ -4,6 +4,8 @@ import com.tretsoft.spa.model.user.SpaUser;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
@@ -34,4 +36,6 @@ public class CashProduct {
     @ManyToOne
     private SpaUser user;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<CashOperation> operations;
 }
