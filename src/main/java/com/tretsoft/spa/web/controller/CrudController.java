@@ -7,11 +7,13 @@ import com.tretsoft.spa.web.dto.ResponseDeleted;
 import com.tretsoft.spa.web.mapper.BaseMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Log4j2
+@Validated
 @RequiredArgsConstructor
 public abstract class CrudController<POJO, DTO> extends ExceptionHandlerController {
     public final CrudService<POJO> service;
@@ -43,7 +45,7 @@ public abstract class CrudController<POJO, DTO> extends ExceptionHandlerControll
     }
 
     @PostMapping
-    public DTO create(@RequestBody DTO dto) {
+    public DTO create(@Validated @RequestBody DTO dto) {
         logInfo("Create dto=" + dto);
         DTO result = mapper.sourceToDto(service.create(mapper.dtoToSource(dto)));
         if (result == null) {
@@ -53,7 +55,7 @@ public abstract class CrudController<POJO, DTO> extends ExceptionHandlerControll
     }
 
     @PutMapping
-    public DTO update(@RequestBody DTO dto) {
+    public DTO update(@Validated @RequestBody DTO dto) {
         logInfo("Update dto=" + dto);
         DTO result = mapper.sourceToDto(service.update(mapper.dtoToSource(dto)));
         if (result == null) {

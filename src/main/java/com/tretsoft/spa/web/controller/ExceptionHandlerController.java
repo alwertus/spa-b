@@ -1,6 +1,5 @@
 package com.tretsoft.spa.web.controller;
 
-import com.tretsoft.spa.exception.AlreadyExistsException;
 import com.tretsoft.spa.exception.BaseException;
 import com.tretsoft.spa.exception.SimpleException;
 import com.tretsoft.spa.web.dto.ResponseError;
@@ -33,11 +32,11 @@ public abstract class ExceptionHandlerController {
 
     @ExceptionHandler()
     public ResponseEntity<Object> exceptionHandler(DataIntegrityViolationException ex) {
-        log.error("Duplicate exception: " + ex.getMessage());
+        log.error(ex.getMessage());
 
         return ResponseEntity
                 .badRequest()
-                .body(new ResponseError(new AlreadyExistsException("attributes")));
+                .body(new ResponseError(new SimpleException(ex.getMessage())));
     }
 
 }
