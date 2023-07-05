@@ -2,7 +2,6 @@ package com.tretsoft.spa.service.update.handler;
 
 import com.tretsoft.spa.service.auth.RoleService;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class HandlerVersionInit extends UpdateHandler {
