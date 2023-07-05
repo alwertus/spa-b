@@ -19,7 +19,7 @@ public class HandlerVersion0 extends UpdateHandler {
     private final CurrencyRepository currencyRepository;
 
     public HandlerVersion0(RoleService roleService, UserService userService, CurrencyRepository currencyRepository) {
-        super(null, "1");
+        super("0", "1");
         this.roleService = roleService;
         this.userService = userService;
         this.currencyRepository = currencyRepository;
@@ -27,7 +27,7 @@ public class HandlerVersion0 extends UpdateHandler {
 
     @Override
     public void run() {
-        SpaRole newRole = roleService.createRole("PAGE_CASH", true);
+        SpaRole newRole = roleService.createRole("PAGE_CASH", true, 2);
 
         currencyRepository.saveAll(List.of(
                 Currency.builder().name("USD").build(),

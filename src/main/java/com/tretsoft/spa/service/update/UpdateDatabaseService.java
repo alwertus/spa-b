@@ -68,7 +68,7 @@ public class UpdateDatabaseService {
     }
 
     @Transactional
-    void update(AppConfig attrVersion, UpdateHandler handler) {
+    public void update(AppConfig attrVersion, UpdateHandler handler) {
         handler.run();
         attrVersion.setValue(handler.newVersion);
         appConfigRepository.save(attrVersion);

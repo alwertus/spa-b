@@ -3,6 +3,7 @@ package com.tretsoft.spa.service.auth;
 import com.tretsoft.spa.config.props.AppProperties;
 import com.tretsoft.spa.exception.AlreadyExistsException;
 import com.tretsoft.spa.exception.BadRequestException;
+import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.model.user.SpaRole;
 import com.tretsoft.spa.model.user.SpaUser;
 import com.tretsoft.spa.model.user.SpaUserStatus;
@@ -13,6 +14,8 @@ import com.tretsoft.spa.web.dto.SpaUserDto;
 import com.tretsoft.spa.web.mapper.SpaUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -102,11 +105,24 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addRoleToUser(SpaUser user, SpaRole role) {
+    public SpaUser addRoleToUser(SpaUser user, SpaRole role) {
         if (user.getRoles().contains(role)) {
-            return;
+            log.debug("User already has role: {}", role.getName());
+            return user;
         }
         user.getRoles().add(role);
-        userRepository.save(user);
+        log.debug("User after add role: {}", user);
+        return userRepository.save(user);
     }
+
+    public SpaUser removeRoleFromUser(SpaUser user, SpaRole role) {
+        if (!user.getRoles().contains(role)) {
+            log.debug("User not contains role: {}", role.getName());
+            return user;
+        }
+        user.getRoles().remove(role);
+        log.debug("User after remove role: {}", user);
+        return userRepository.save(user);
+    }
+
 }

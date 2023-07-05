@@ -1,5 +1,6 @@
 package com.tretsoft.spa.service.auth;
 
+import com.tretsoft.spa.exception.NotFoundException;
 import com.tretsoft.spa.model.user.SpaRole;
 import com.tretsoft.spa.model.user.SpaUser;
 import com.tretsoft.spa.repository.user.RoleRepository;
@@ -28,7 +29,7 @@ public class RoleService {
         user.setRoles(newRoles);
     }
 
-    public SpaRole createRole(String name, boolean isDefault) {
+    public SpaRole createRole(String name, boolean isDefault, Integer priority) {
         Optional<SpaRole> role = roleRepository.findByName(name);
 
         if (role.isPresent()) {
@@ -42,8 +43,15 @@ public class RoleService {
                 .created(Calendar.getInstance())
                 .name(name)
                 .isDefault(isDefault)
+                .priority(priority)
                 .build();
         return roleRepository.save(newRole);
+    }
+
+    public SpaRole getByName(String name) {
+        return roleRepository
+                .findByName(name)
+                .orElseThrow(() -> new NotFoundException(name));
     }
 
     public long getRecordsCount() {

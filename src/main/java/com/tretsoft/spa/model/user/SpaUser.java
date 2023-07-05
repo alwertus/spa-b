@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @Entity
 @Table
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -28,24 +29,29 @@ public class SpaUser implements UserDetails {
     @Column(length = 100, unique = true, nullable = false)
     private String login;
 
+    @ToString.Exclude
     @Column(nullable = false)
     private String password;
 
     @Column
     private String email;
 
+    @ToString.Exclude
     @Column
     private Calendar created;
 
+    @ToString.Exclude
     @Column
     private Calendar updated;
 
+    @ToString.Exclude
     @Column
     private Calendar lastLogin;
 
     @Column
     private SpaUserStatus status;
 
+    @ToString.Exclude
     @Column
     private String emailConfirmKey;
 

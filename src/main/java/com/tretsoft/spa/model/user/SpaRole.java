@@ -28,6 +28,9 @@ public class SpaRole {
     @Column
     private Boolean isDefault;
 
+    @Column
+    private Integer priority;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
