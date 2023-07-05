@@ -3,7 +3,6 @@ package com.tretsoft.spa.service.auth;
 import com.tretsoft.spa.config.props.AppProperties;
 import com.tretsoft.spa.exception.AlreadyExistsException;
 import com.tretsoft.spa.exception.BadRequestException;
-import com.tretsoft.spa.exception.ForbiddenException;
 import com.tretsoft.spa.model.user.SpaRole;
 import com.tretsoft.spa.model.user.SpaUser;
 import com.tretsoft.spa.model.user.SpaUserStatus;
@@ -14,8 +13,6 @@ import com.tretsoft.spa.web.dto.SpaUserDto;
 import com.tretsoft.spa.web.mapper.SpaUserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
