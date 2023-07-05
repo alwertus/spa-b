@@ -6,4 +6,6 @@ values (1000, now(), true, 'Space1', (select id from spa_user where login = 'use
 
 -- create pages
 insert into info_page (id, created, html, position, title, updated, created_by, parent_id, space_id, updated_by)
-values (1000, now(), 'TEXT TEXT TEXT 1', null, 'Space1-Page1', now(), (select id from spa_user where login = 'user1'), null, 1000, null);
+values (1000, now(), 'TEXT TEXT TEXT 1', null, 'Space1-Page1', now(), (select id from spa_user where login = 'user1'), null, 1000, null),
+       (1001, now(), 'TEXT TEXT TEXT 2', null, 'Space1-Page2', now(), (select id from spa_user where login = 'user1'), null, 1000, null),
+       (1002, now(), 'TEXT TEXT TEXT 3', null, 'Space1-Page3', now(), (select id from spa_user where login = 'user1'), null, 1000, null);
